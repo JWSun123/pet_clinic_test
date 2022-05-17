@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "pet_types")
 @Getter
 @Setter
-public class PetType extends BaseEntity{
+public class PetType extends IdBaseEntity {
     @NotEmpty
     @Column(name = "pet_type")
     private String petType;

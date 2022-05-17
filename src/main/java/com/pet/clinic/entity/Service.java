@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "services")
 @Getter
 @Setter
-public class Service extends BaseEntity{
+public class Service extends IdBaseEntity {
     @NotEmpty
     @Column(name = "service_name")
     private String serviceName;

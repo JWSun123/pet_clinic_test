@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "pets")
 @Getter
 @Setter
-public class Pet extends BaseEntity{
+public class Pet extends IdBaseEntity {
 
     @NotEmpty
     @Column(name = "pet_name")

@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "visits")
 @Getter
 @Setter
-public class Visit extends BaseEntity{
+public class Visit extends IdBaseEntity {
 
     @NotEmpty
     @Column(name = "visit_date")

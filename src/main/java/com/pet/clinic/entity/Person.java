@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @MappedSuperclass
 @Getter
 @Setter
-public class Person extends BaseEntity{
+public class Person extends IdBaseEntity {
 
     @Column(name = "first_name")
     @NotEmpty
