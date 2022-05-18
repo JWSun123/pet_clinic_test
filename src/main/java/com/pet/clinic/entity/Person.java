@@ -1,7 +1,6 @@
 package com.pet.clinic.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -10,6 +9,9 @@ import javax.validation.constraints.NotEmpty;
 @MappedSuperclass
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Person extends IdBaseEntity {
 
     @Column(name = "first_name")

@@ -13,6 +13,6 @@ import javax.persistence.MappedSuperclass;
 public class IdBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
 }

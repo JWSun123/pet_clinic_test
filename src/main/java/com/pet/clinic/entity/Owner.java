@@ -1,7 +1,6 @@
 package com.pet.clinic.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,7 +12,10 @@ import java.util.Set;
 @Table(name = "owners")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Owner extends Person{
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Pet> pets;
 }
+

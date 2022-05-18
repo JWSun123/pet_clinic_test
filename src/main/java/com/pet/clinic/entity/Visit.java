@@ -28,11 +28,9 @@ public class Visit extends IdBaseEntity {
     private String description;
 
     @NotEmpty
-    @Column(name = "pet_id")
     @ManyToOne
     private Pet pet;
 
-    @Column(name = "vet_id")
     @ManyToOne
     private Vet vet;
 
