@@ -10,18 +10,17 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-
 @Entity
-@Table(name = "visits")
+@Table(name = "appointments")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Visit extends IdBaseEntity {
+public class Appointment extends IdBaseEntity{
 
     @NotEmpty
-    @Column(name = "visit_date")
-    private Date visitDate;
+    @Column(name = "appointment_date")
+    private Date appointmentDate;
 
     @Column(name = "description")
     @Size(max = 200)
@@ -31,9 +30,5 @@ public class Visit extends IdBaseEntity {
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;
-
-    @ManyToOne
-    @JoinColumn(name = "vet_id")
-    private Vet vet;
 
 }
