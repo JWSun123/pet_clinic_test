@@ -1,4 +1,4 @@
-package com.pet.clinic.Controller;
+package com.pet.clinic.controller;
 
 import org.springframework.stereotype.Controller;
 
