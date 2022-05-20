@@ -19,6 +19,6 @@ public class Specialty extends IdBaseEntity {
     @Size(max = 50)
     private String specialtyName;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "specialties")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "specialties")
     private Set<Vet> vets;
 }
