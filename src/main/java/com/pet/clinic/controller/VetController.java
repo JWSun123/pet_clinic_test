@@ -69,25 +69,27 @@ public class VetController {
         return "redirect:/vet";
     }
 
-    // when click the separete button for specialty. it shows a table for vet's specialty.
+    // when click the separate button for specialty. it shows a table for vet's specialty.
     // show add/delete button for specialty. add button with a select box. the content will be allRestSpecialty.
     // the specialties the vet already has, won't be shown in the select box for adding.
     @GetMapping("/showVetSpecialty/{vetId}")
-    public String showVetSpecialty(@PathVariable(value = "vetId") Long vetId, Model model) throws RecordNotFoundException {
+    public String showVetSpecialty(@PathVariable(value = "vetId") Long vetId, Model model, @ModelAttribute("specialty") Specialty selecteSpecialty) throws RecordNotFoundException {
 
         Set<Specialty> vetSpecialties = vetService.getVetSpecialtiesByVetId(vetId);
         List<Specialty> allRestSpecialties = vetService.getAllTheRestSpecialties(vetId);
 
         model.addAttribute("vetSpecialties", vetSpecialties);
         model.addAttribute("allRestSpecialties", allRestSpecialties);
+        model.addAttribute("vetId", vetId);
+
         return "update-vet-specialty";
     }
 
     // when select a specialty from the select box and click add button. won't open any new page. stays on the current page.
-    @PostMapping("/showVetSpecialty/{vetId}/addVetSpecialty/{specialtyId}")
-    public String addVetSpecialty(@PathVariable(value = "vetId") Long vetId, @PathVariable(value = "specialtyId")Long specialtyId) throws RecordNotFoundException {
-        vetService.addVetSpecialty(vetId, specialtyId);
-        return "redirect:../";
+    @PostMapping("/showVetSpecialty/{vetId}/addVetSpecialty")
+    public String addVetSpecialty(@PathVariable(value = "vetId") Long vetId, @ModelAttribute("specialty") Specialty selectSpecialty) throws RecordNotFoundException {
+        vetService.addVetSpecialty(vetId, selectSpecialty);
+        return "redirect:/showVetSpecialty/{vetId}";
     }
 
     // when clicking delete specialty. redirect to the show vet specialty page.

@@ -50,8 +50,8 @@ public class SpecialtyController {
 
     // when clicking on modify for a specialty. shows a form for updateing.
     @GetMapping("/showSpecialtyForUpdate/{specialtyId}")
-    public String showSpecialtyForUpdate(@PathVariable(value = "specialtyId") Long id, Model model) throws RecordNotFoundException {
-        Specialty specialty = specialtyService.getSpecialtyById(id);
+    public String showSpecialtyForUpdate(@PathVariable(value = "specialtyId") Long specialtyId, Model model) throws RecordNotFoundException {
+        Specialty specialty = specialtyService.getSpecialtyById(specialtyId);
         model.addAttribute("specialty", specialty);
         return "update-specialty";
     }
@@ -68,9 +68,9 @@ public class SpecialtyController {
 
     // when clicking delete, stays on the current page.
     @GetMapping("/deleteSpecialty/{specialtyId}")
-    public String deleteSpecialty(@PathVariable(value = "specialtyId") Long id){
-        specialtyService.deleteSpecialtyById(id);
-        return "redirect: /specialty";
+    public String deleteSpecialty(@PathVariable(value = "specialtyId") Long specialtyId){
+        specialtyService.deleteSpecialtyById(specialtyId);
+        return "redirect:../specialty";
     }
     // select box for specialties, and choose one to get all the vets with this specialty.
     @GetMapping("/specialty/getVetBySpecialty/{specialtyId}")

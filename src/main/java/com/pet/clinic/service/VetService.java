@@ -64,19 +64,26 @@ public class VetService {
         return result;
     }
 
-    public void addVetSpecialty(Long vetId, Long specialtyId) throws RecordNotFoundException {
+    public void addVetSpecialty(Long vetId, Specialty selectpecialty) throws RecordNotFoundException {
         Vet vet = getVetById(vetId);
-        Specialty specialty = specialtyRepository.getById(specialtyId);
 
         // add specialty to vet.
-        Set<Specialty> vetSpecialties = vet.getSpecialties();
-        vetSpecialties.add(specialty);
-        vet.setSpecialties(vetSpecialties);
+//        Set<Specialty> vetSpecialties = vet.getSpecialties();
+//        vetSpecialties.add(specialty);
+//        vet.setSpecialties(vetSpecialties);
 
         // add vet to specialty.
-        Set<Vet> vets = specialty.getVets();
-        vets.add(vet);
-        specialty.setVets(vets);
+//        Set<Vet> vets = specialty.getVets();
+//        vets.add(vet);
+//        specialty.setVets(vets);
+
+        Specialty specialty = specialtyRepository.findById(selectpecialty.getId()).get();
+        vet.getSpecialties().add(specialty);
+        vetRepository.save(vet);
+
+        specialty.getVets().add(vet);
+        specialtyRepository.save(specialty);
+
     }
 
     public void deleteVetSpecialty(Long vetId, Long specialtyId) throws RecordNotFoundException {
@@ -85,14 +92,12 @@ public class VetService {
         Specialty specialty = specialtyRepository.getById(specialtyId);
 
         // remove specialty in vet.
-        Set<Specialty> vetSpecialties = vet.getSpecialties();
-        vetSpecialties.remove(specialty);
-        vet.setSpecialties(vetSpecialties);
+        vet.getSpecialties().remove(specialty);
+        vetRepository.save(vet);
 
         //remove vet in specialty.
-        Set<Vet> vets = specialty.getVets();
-        vets.remove(vet);
-        specialty.setVets(vets);
+        specialty.getVets().remove(vet);
+        specialtyRepository.save(specialty);
     }
 
     public void deleteVet(Long vetId) {

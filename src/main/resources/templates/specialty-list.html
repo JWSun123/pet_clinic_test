@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+<body class="container">
+    <div>
+        <a class="btn btn-primary" th:href="@{addSpecialty}">Add A Specialty</a>
+    </div>
+    <div>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Specialty Name</th>
+                <th>Action</th>
+
+            </tr>
+            <tr th:each="specialty: ${specialties}">
+                <td th:text="${specialty.getId()}"></td>
+                <td th:text="${specialty.getSpecialtyName()}"></td>
+                <td><a th:href="@{deleteSpecialty/{specialtyId}(specialtyId=${specialty.getId()})}">delete</a> |
+                    <a th:href="@{showSpecialtyForUpdate/{specialtyId}(specialtyId=${specialty.getId()})}">modify</a> |
+                    <a th:href="@{/specialty/getVetBySpecialty/{specialtyId}(specialtyId=${specialty.getId()})}">view all vets</a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
