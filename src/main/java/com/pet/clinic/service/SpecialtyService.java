@@ -4,6 +4,7 @@ import com.pet.clinic.entity.Specialty;
 import com.pet.clinic.entity.Vet;
 import com.pet.clinic.exception.RecordNotFoundException;
 import com.pet.clinic.repository.SpecialtyRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class SpecialtyService {
     }
 
     public List<Specialty> getAllSpecialty() {
-        return specialtyRepository.findAll();
+        return specialtyRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Specialty getSpecialtyById(Long id) throws RecordNotFoundException {
