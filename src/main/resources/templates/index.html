@@ -6,53 +6,8 @@
 <body>
 <div id="viewport">
     <!-- sidebar -->
-<<<<<<< Updated upstream
-    <div id="sidebar">
-        <header>
-            <a href="#">Pet Clinic</a>
-        </header>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li>
-                <a href="#" class="nav-link link-dark">
-                    <i class="bi bi-speedometer2"></i>
-                    Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-dark">
-                    <i class="bi bi-calendar-week"></i>
-                    Appointment
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-dark">
-                    <i class="bi bi-person-circle"></i>
-                    Veterinarians
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-dark">
-                    <i class="bi bi-people-fill"></i>
-                    Clients
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-dark">
-                    <i class="bi bi-emoji-smile"></i>
-                    Pets
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-dark">
-                    <i class="bi bi-table"></i>
-                    History of visits
-                </a>
-            </li>
-        </ul>
-    </div>
-=======
+
     <div th:replace="sidebar :: mysidebar"></div>
->>>>>>> Stashed changes
 
     <!-- Content -->
     <div id="content">
@@ -60,7 +15,7 @@
             <div class="container-fluid">
                 <ul class="nav navbar-nav navbar-right">
                     <li><button type="button" class="btn btn-primary">Log out</button></li>
-                    <li><p th:text="${#dates.format(thisDate, 'dd-MM-yyyy')}"></p></li>
+                    <li><p th:text="${#dates.format(#dates.createNow(), 'dd-MMM-yyyy')}"></p></li>
                 </ul>
             </div>
         </nav>
