@@ -12,9 +12,6 @@ public class homeController {
 
     @GetMapping("/index")
     public String viewHomePage(Model model){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String dateString = dateFormat.format(new Date());
-        model.addAttribute("thisDate", dateString);
         return "/index";
     }
 }
