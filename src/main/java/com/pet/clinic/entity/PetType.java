@@ -1,5 +1,6 @@
 package com.pet.clinic.entity;
 
+import com.pet.clinic.constant.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class PetType extends IdBaseEntity{
 
-    @NotEmpty
+    @NotEmpty(message = ErrorMessage.PET_TYPE_IS_REQUIRED_ERROR_MESSAGE)
     @Size(max = 50)
-    private String petType;
+    @Column(name = "petType")
+    private String petTypeName;
 
 }

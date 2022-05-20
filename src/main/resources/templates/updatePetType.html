@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <div th:replace="header :: myheader"></div>
+</head>
+<body>
+
+<div id="content">
+    <div class="container-fluid">
+
+        <h1>Update Pet Type</h1>
+        <div>
+            <form th:action="@{/savePetType}" th:object="${petType}" method="post">
+                <div class="form-group mt-3">
+                    <label>Pet Type ID</label>
+                    <input  type="number" th:field="*{id}" readonly>
+                </div>
+                <div class="form-group mt-3">
+                    <label th:classappend="${#fields.hasErrors('petTypeName')} ? 'text-danger' : ''" for="petType">Pet type</label>
+                    <input type="text" class="form-control" th:field="*{petTypeName}" id="petType" placeholder="Enter the pet type">
+                    <p th:if="${#fields.hasErrors('petTypeName')}" th:errors="*{petTypeName}" class="text-danger"></p>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Update pet type</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
