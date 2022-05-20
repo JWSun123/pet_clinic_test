@@ -17,6 +17,4 @@ public class homeController {
         model.addAttribute("thisDate", dateString);
         return "/index";
     }
-
-
 }
