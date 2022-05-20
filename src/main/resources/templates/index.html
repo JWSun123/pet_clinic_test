@@ -23,28 +23,48 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link link-dark">
+                <a href="#submenu1" data-bs-toggle="collapse" class="nav-link link-dark">
                     <i class="bi bi-calendar-week"></i>
                     Appointment
+                    <i class="bi bi-caret-down"></i>
                 </a>
+                <ul class="collapse nav-link link-dark flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                    <li class="nav-link link-dark"><a href="#">view appointments</a></li>
+                    <li class="nav-link link-dark"><a href="#">add  appointment</a></li>
+                </ul>
             </li>
             <li>
-                <a href="#" class="nav-link link-dark">
+                <a href="#submenu2" data-bs-toggle="collapse" class="nav-link link-dark">
                     <i class="bi bi-person-circle"></i>
                     Veterinarians
+                    <i class="bi bi-caret-down"></i>
                 </a>
+                <ul class="collapse nav-link link-dark flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                    <li class="nav-link link-dark"><a href="#">view veterinarians</a></li>
+                    <li class="nav-link link-dark"><a href="#">add veterinarian</a></li>
+                </ul>
             </li>
             <li>
-                <a href="#" class="nav-link link-dark">
+                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link link-dark">
                     <i class="bi bi-people-fill"></i>
                     Clients
+                    <i class="bi bi-caret-down"></i>
                 </a>
+                <ul class="collapse nav-link link-dark flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                    <li class="nav-link link-dark"><a href="#">view clients</a></li>
+                    <li class="nav-link link-dark"><a href="#">add client</a></li>
+                </ul>
             </li>
             <li>
-                <a href="#" class="nav-link link-dark">
+                <a href="#submenu4" data-bs-toggle="collapse" class="nav-link link-dark">
                     <i class="bi bi-emoji-smile"></i>
                     Pets
+                    <i class="bi bi-caret-down"></i>
                 </a>
+                <ul class="collapse nav-link link-dark flex-column ms-1" id="submenu4" data-bs-parent="#menu">
+                    <li class="nav-link link-dark"><a href="#">view pets</a></li>
+                    <li class="nav-link link-dark"><a href="#">add pet</a></li>
+                </ul>
             </li>
             <li>
                 <a href="#" class="nav-link link-dark">
@@ -61,7 +81,7 @@
             <div class="container-fluid">
                 <ul class="nav navbar-nav navbar-right">
                     <li><button type="button" class="btn btn-primary">Log out</button></li>
-                    <li><p th:text="${#dates.format(thisDate, 'dd-MM-yyyy')}"></p></li>
+                    <li><p th:text="${#dates.format(#dates.createNow(),'dd MMM yyyy')}"></p></li>
                 </ul>
             </div>
         </nav>
