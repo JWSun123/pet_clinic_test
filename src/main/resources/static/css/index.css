@@ -39,20 +39,21 @@ body {
     transition: all 0.5s ease;
 }
 
-#sidebar header {
+#nav{
     background-color: #263238;
-    font-size: 20px;
-    line-height: 52px;
-    text-align: center;
-}
-
-#sidebar header a {
     color: #fff;
-    display: block;
-    text-decoration: none;
+}
+#nav a {
 }
 
-#sidebar header a:hover {
+#nav a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #fff;
+
+}
+
+#nav a:hover {
     color: #fff;
 }
 
@@ -64,6 +65,10 @@ body {
     padding: 16px 24px;
 }
 
+.carousel-caption {
+    top: 3%;
+    font-size: xx-large;
+}
 #sidebar .nav a:hover{
     background: none;
     color: #ECEFF1;
