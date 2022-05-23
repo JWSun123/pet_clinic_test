@@ -1,8 +1,11 @@
 package com.pet.clinic.entity;
 
 import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -27,7 +30,8 @@ public class Pet extends IdBaseEntity {
     private Date dob;
 
     @ManyToOne
-    @JoinColumn(name = "pet_type_id")
+    @JoinColumn(name = "pet_type_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PetType petType;
 
     @ManyToOne
