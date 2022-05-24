@@ -36,10 +36,9 @@ public class AppointmentController {
 
     @GetMapping("/findPetForAppointment")
     public String findPet(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException {
-        List<Pet> pets = null;
+        List<Pet> pets;
         if (keyword != null) pets = petService.findPetByKeyword(keyword);
-
-        //TODO: delete " = null",adding "else {pets = petService.getAllPets();}"
+        else {pets = petService.getAllPets();}
 
         model.addAttribute("pets", pets);
         return "appointment-pet";

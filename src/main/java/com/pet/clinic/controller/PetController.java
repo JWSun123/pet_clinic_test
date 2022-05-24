@@ -6,10 +6,7 @@ import com.pet.clinic.service.PetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -45,8 +42,7 @@ public class PetController {
         return "redirect:/pet";
     }
 
-    // when clicking on the modify button beside a pet. show a form for update pet info(not include specialty)
-    // a separate button for view/modify pet's specialty.
+
     @GetMapping("/showPetInfoForUpdate/{petId}")
     public String showPetInfoForUpdate(@PathVariable(value = "petId") Long petId, Model model) throws RecordNotFoundException {
         Pet pet = petService.getPetById(petId);
@@ -54,7 +50,6 @@ public class PetController {
         return "update-pet-info";
     }
 
-    //updating info, won't open any new page.
     @PostMapping("/updatePetInfo")
     public String updatePetInfo(@Valid @ModelAttribute("pet") Pet updatePet, BindingResult result) throws RecordNotFoundException {
         if (result.hasErrors()) {
@@ -68,5 +63,15 @@ public class PetController {
     public String deletePet(@PathVariable(value = "petId") Long petId) {
         petService.deletePet(petId);
         return "redirect:../pet";
+    }
+
+    @GetMapping("/searchPet")
+    public String searchPetByKeyword(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException{
+        List<Pet> pets;
+        if (keyword != null) pets = petService.findPetByKeyword(keyword);
+        else {pets = petService.getAllPets();}
+
+        model.addAttribute("pets", pets);
+        return "pet-list";
     }
 }

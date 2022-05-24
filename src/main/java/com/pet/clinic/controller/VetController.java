@@ -115,6 +115,5 @@ public class VetController {
         }
         model.addAttribute("vets", vets);
         return "vet-list";
-
     }
 }
