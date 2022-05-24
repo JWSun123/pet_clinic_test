@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <title>Add a client</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <div th:replace="header :: myheader"></div>
 </head>
 <body>
-    <!--<div th:replace="header :: myheader"></div>-->
-    <!--<div th:replace="sidebar :: mysidebar"></div>-->
+<div>
+    <nav th:replace="navbar :: mynavbar"></nav>
+</div>
+<div id="viewport">
+    <div id="content">
+        <!-- sidebar -->
+        <div th:replace="sidebar :: mysidebar"></div>
+        <!--        content starts here!-->
     <div class="container-fluid">
         <div class="row justify-content-center">
             <h1>Client registration form</h1>
@@ -50,5 +54,8 @@
             <button type="submit" class="btn btn-info col-2">Save</button>
         </form>
     </div>
+    </div>
+</div>
+    <div th:insert="footer :: foot"></div>
 </body>
 </html>
