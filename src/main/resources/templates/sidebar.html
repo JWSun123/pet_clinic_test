@@ -22,14 +22,14 @@
         </ul>
       </li>
       <li>
-        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link link-dark">
+        <a href="../#submenu2" data-bs-toggle="collapse" class="nav-link link-dark">
           <i class="bi bi-person-circle"></i>
           Veterinarians
           <i class="bi bi-caret-down"></i>
         </a>
         <ul class="collapse nav-link link-dark flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-          <li class="nav-link link-dark"><a href="#">view veterinarians</a></li>
-          <li class="nav-link link-dark"><a href="#">add veterinarian</a></li>
+          <li class="nav-link link-dark"><a th:href="@{/vet}">view veterinarians</a></li>
+          <li class="nav-link link-dark"><a th:href="@{/specialty}">edit specialty</a></li>
         </ul>
       </li>
       <li>
