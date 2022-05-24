@@ -57,8 +57,8 @@ public class VetService {
         List<Specialty> allSpecialties = specialtyRepository.findAll();
         Set<Specialty> vetSpecialties = getVetSpecialtiesByVetId(vetId);
         List<Specialty> result = new ArrayList<>();
-        for(Specialty specialty: allSpecialties){
-            if(!vetSpecialties.contains(specialty)){
+        for (Specialty specialty : allSpecialties) {
+            if (!vetSpecialties.contains(specialty)) {
                 result.add(specialty);
             }
         }
@@ -105,5 +105,15 @@ public class VetService {
 
     public void deleteVet(Long vetId) {
         vetRepository.deleteById(vetId);
+    }
+
+    public List<Vet> searchVetByKeyword(String keyword) throws RecordNotFoundException {
+        List<Vet> vets = vetRepository.findByKeyword(keyword);
+        if(vets.size() != 0)
+        return vets;
+        else{
+            throw  new RecordNotFoundException("Vet not found.");
+        }
+
     }
 }

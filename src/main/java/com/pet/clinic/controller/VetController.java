@@ -1,5 +1,6 @@
 package com.pet.clinic.controller;
 
+import com.pet.clinic.entity.Owner;
 import com.pet.clinic.entity.Specialty;
 import com.pet.clinic.entity.Vet;
 import com.pet.clinic.exception.RecordNotFoundException;
@@ -7,10 +8,7 @@ import com.pet.clinic.service.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -101,8 +99,22 @@ public class VetController {
 
     // when clicking delete vet. redirect to the vet page.
     @GetMapping("/deleteVet/{vetId}")
-    public String deleteVet(@PathVariable(value = "vetId") Long vetId){
+    public String deleteVet(@PathVariable(value = "vetId") Long vetId) {
         vetService.deleteVet(vetId);
         return "redirect:../vet";
+    }
+
+    @GetMapping("/searchVet")
+    public String searchVet(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException {
+
+        List<Vet> vets;
+        if (keyword != null) {
+            vets = vetService.searchVetByKeyword(keyword);
+        } else {
+            vets = vetService.getAllVets();
+        }
+        model.addAttribute("vets", vets);
+        return "vet-list";
+
     }
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <div th:replace="header :: myheader"></div>
+</head>
+<body>
+<div>
+    <nav th:replace="navbar :: mynavbar"></nav>
+</div>
+<div id="viewport">
+    <div id="content">
+        <!-- sidebar -->
+        <div th:replace="sidebar :: mysidebar"></div>
+        <!--        content starts here!-->
+            <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Pet ID</th>
+                        <th>Pet Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="appointment:${appointments}">
+                        <td th:text="${appointment.getAppointmentDate()}"></td>
+                        <td th:text="${appointment.getPet().getId()}"></td>
+                        <td th:text="${appointment.getPet().getPetName()}"></td>
+                        <td th:text="${appointment.getDescription()}"></td>
+                        <td><a th:href="@{}">cancel</a> | <a th:href="@{}">update</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+    </div>
+</div>
+</body>
+</html>
