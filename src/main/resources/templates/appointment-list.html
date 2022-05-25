@@ -13,31 +13,37 @@
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
         <div class="container">
-            <div class="pt-3">
+            <div class="pt-3 col-10">
                 <a class="btn btn-outline-primary" th:href="@{makeAppointment}">Make Appointment</a>
             </div>
-                <div class="mt-3">
-                    <table class="table">
-                        <thead >
-                        <tr>
-                            <th>Date</th>
-                            <th>Pet ID</th>
-                            <th>Pet Name</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="appointment:${appointments}">
-                            <td th:text="${appointment.getAppointmentDate()}"></td>
-                            <td th:text="${appointment.getPet().getId()}"></td>
-                            <td th:text="${appointment.getPet().getPetName()}"></td>
-                            <td th:text="${appointment.getDescription()}"></td>
-                            <td><a >cancel</a> | <a>update</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="mt-3 col-10">
+                <form th:action="@{/appointmentByDate}" method="get">
+                    <input type="date" name="appointmentDate" class="col-8">
+                    <button type="submit" class="btn btn-outline-secondary" >Get Appointment By Date</button>
+                </form>
+            </div>
+            <div class="mt-3">
+                <table class="table">
+                    <thead >
+                    <tr>
+                        <th>Date</th>
+                        <th>Pet ID</th>
+                        <th>Pet Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="appointment:${appointments}">
+                        <td th:text="${appointment.getAppointmentDate()}"></td>
+                        <td th:text="${appointment.getPet().getId()}"></td>
+                        <td th:text="${appointment.getPet().getPetName()}"></td>
+                        <td th:text="${appointment.getDescription()}"></td>
+                        <td><a th:href="@{/cancelAppointment/{appointmentId}(appointmentId=${appointment.getId()})}">cancel</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
 
@@ -46,5 +52,7 @@
 
     </div>
 </div>
+<div th:insert="footer :: foot"></div>
+
 </body>
 </html>

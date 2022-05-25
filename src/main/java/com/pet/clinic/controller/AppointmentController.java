@@ -25,7 +25,15 @@ public class AppointmentController {
 
     @GetMapping("/appointment")
     public String getAllAppointment(Model model) {
+
         List<Appointment> appointments = appointmentService.getAllAppointment();
+        model.addAttribute("appointments", appointments);
+        return "appointment-list";
+    }
+
+    @GetMapping("/appointmentByDate")
+    public String getAppointmentByDate(@RequestParam("appointmentDate")String appointmentDate, Model model){
+        List<Appointment> appointments = appointmentService.getAppointmentByDate(appointmentDate);
         model.addAttribute("appointments", appointments);
         return "appointment-list";
     }
@@ -64,5 +72,11 @@ public class AppointmentController {
 //        }
         appointmentService.saveOrUpdateAppointment(newAppointment);
         return "redirect:/appointment";
+    }
+
+    @GetMapping("/cancelAppointment/{appointmentId}")
+    public String cancelAppointment(@PathVariable(value = "appointmentId") Long appointmentId){
+        appointmentService.cancelAppointment(appointmentId);
+        return "redirect:../appointment";
     }
 }
