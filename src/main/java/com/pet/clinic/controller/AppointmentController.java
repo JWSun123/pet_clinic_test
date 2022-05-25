@@ -28,19 +28,19 @@ public class AppointmentController {
 
         List<Appointment> appointments = appointmentService.getAllAppointment();
         model.addAttribute("appointments", appointments);
-        return "appointment-list";
+        return "appointment/appointment-list";
     }
 
     @GetMapping("/appointmentByDate")
     public String getAppointmentByDate(@RequestParam("appointmentDate")String appointmentDate, Model model){
         List<Appointment> appointments = appointmentService.getAppointmentByDate(appointmentDate);
         model.addAttribute("appointments", appointments);
-        return "appointment-list";
+        return "appointment/appointment-list";
     }
 
     @GetMapping("/makeAppointment")
     public String showAppointmentPage() {
-        return "appointment-step1";
+        return "appointment/appointment-step1";
     }
 
     @GetMapping("/findPetForAppointment")
@@ -52,7 +52,7 @@ public class AppointmentController {
         }
 
         model.addAttribute("pets", pets);
-        return "appointment-pet";
+        return "appointment/appointment-pet";
     }
 
     @GetMapping("/makeAppointment/{petId}")
@@ -62,7 +62,7 @@ public class AppointmentController {
         appointment.setPet(pet);
         model.addAttribute("pet", pet);
         model.addAttribute("appointment", appointment);
-        return "make-appointment";
+        return "appointment/make-appointment";
     }
 
     @PostMapping("/saveAppointment")
@@ -70,7 +70,7 @@ public class AppointmentController {
         if(result.hasErrors()){
             // if I want to stay at the current page, petId is required.
             model.addAttribute("pet", newAppointment.getPet());
-            return "make-appointment";
+            return "appointment/make-appointment";
         }
         appointmentService.saveOrUpdateAppointment(newAppointment);
         return "redirect:/appointment";

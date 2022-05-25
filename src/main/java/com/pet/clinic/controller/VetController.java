@@ -1,6 +1,5 @@
 package com.pet.clinic.controller;
 
-import com.pet.clinic.entity.Owner;
 import com.pet.clinic.entity.Specialty;
 import com.pet.clinic.entity.Vet;
 import com.pet.clinic.exception.RecordNotFoundException;
@@ -27,7 +26,7 @@ public class VetController {
     public String getAllVets(Model model){
         List<Vet> vetList = vetService.getAllVets();
         model.addAttribute("vets", vetList);
-        return "vet-list";
+        return "vet/vet-list";
     }
 
     // when clicking on add a vet. show a form for adding a new vet.
@@ -35,14 +34,14 @@ public class VetController {
     public String addVet(Model model) {
         Vet vet = new Vet();
         model.addAttribute("vet", vet);
-        return "add-vet";
+        return "vet/add-vet";
     }
 
     // saving the new vet. won't open any new page.
     @PostMapping("/saveVet")
     public String saveVet(@Valid @ModelAttribute("vet") Vet newVet, BindingResult result) throws RecordNotFoundException {
         if (result.hasErrors()) {
-            return "/add-vet";
+            return "vet/add-vet";
         }
         vetService.saveOrUpdateVet(newVet);
         return "redirect:/vet";
@@ -54,14 +53,14 @@ public class VetController {
     public String showVetInfoForUpdate(@PathVariable(value = "vetId") Long vetId, Model model) throws RecordNotFoundException {
         Vet vet = vetService.getVetById(vetId);
         model.addAttribute("vet", vet);
-        return "update-vet-info";
+        return "vet/update-vet-info";
     }
 
     //updating info, won't open any new page.
     @PostMapping("/updateVetInfo")
     public String updateVetInfo(@Valid @ModelAttribute("vet") Vet updateVet, BindingResult result) throws RecordNotFoundException {
         if (result.hasErrors()) {
-            return "/update-vet-info";
+            return "vet/update-vet-info";
         }
         vetService.saveOrUpdateVet(updateVet);
         return "redirect:/vet";
@@ -80,7 +79,7 @@ public class VetController {
         model.addAttribute("allRestSpecialties", allRestSpecialties);
         model.addAttribute("vetId", vetId);
 
-        return "update-vet-specialty";
+        return "vet/update-vet-specialty";
     }
 
     // when select a specialty from the select box and click add button. won't open any new page. stays on the current page.
@@ -114,6 +113,6 @@ public class VetController {
             vets = vetService.getAllVets();
         }
         model.addAttribute("vets", vets);
-        return "vet-list";
+        return "vet/vet-list";
     }
 }
