@@ -66,10 +66,12 @@ public class AppointmentController {
     }
 
     @PostMapping("/saveAppointment")
-    public String saveAppointment(@ModelAttribute("appointment") Appointment newAppointment) throws RecordNotFoundException {
-//        if(result.hasErrors()){
-//            return "make-appointment";
-//        }
+    public String saveAppointment(@Valid @ModelAttribute("appointment") Appointment newAppointment, BindingResult result, Model model) throws RecordNotFoundException {
+        if(result.hasErrors()){
+            // if I want to stay at the current page, petId is required.
+            model.addAttribute("pet", newAppointment.getPet());
+            return "make-appointment";
+        }
         appointmentService.saveOrUpdateAppointment(newAppointment);
         return "redirect:/appointment";
     }
