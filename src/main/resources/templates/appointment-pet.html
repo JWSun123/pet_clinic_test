@@ -13,7 +13,7 @@
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
         <div>
-            <table>
+            <table class="table">
                 <thead>
                 <tr>
                     <th>Pet ID</th>
@@ -34,7 +34,7 @@
                     <td th:text="${pet.getOwner().getFirstName()}"></td>
                     <td th:text="${pet.getOwner().getLastName()}"></td>
                     <td th:text="${pet.getOwner().getTel()}"></td>
-                    <td><a th:href="@{}">add appointment</a> | <a th:href="@{}">update appointment</a></td>
+                    <td><a th:href="@{/makeAppointment/{petId}(petId = ${pet.getId()})}">add appointment</a>
                 </tr>
                 </tbody>
             </table>

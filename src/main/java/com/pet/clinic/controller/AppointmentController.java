@@ -7,9 +7,10 @@ import com.pet.clinic.service.AppointmentService;
 import com.pet.clinic.service.PetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -23,14 +24,14 @@ public class AppointmentController {
     }
 
     @GetMapping("/appointment")
-    public String getAllAppointment(Model model){
+    public String getAllAppointment(Model model) {
         List<Appointment> appointments = appointmentService.getAllAppointment();
         model.addAttribute("appointments", appointments);
         return "appointment-list";
     }
 
     @GetMapping("/makeAppointment")
-    public String makeAppointment(Model model){
+    public String showAppointmentPage() {
         return "appointment-step1";
     }
 
@@ -38,10 +39,30 @@ public class AppointmentController {
     public String findPet(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException {
         List<Pet> pets;
         if (keyword != null) pets = petService.findPetByKeyword(keyword);
-        else {pets = petService.getAllPets();}
+        else {
+            pets = petService.getAllPets();
+        }
 
         model.addAttribute("pets", pets);
         return "appointment-pet";
     }
 
+    @GetMapping("/makeAppointment/{petId}")
+    public String makeAppointment(@PathVariable(value = "petId") Long petId, Model model) throws RecordNotFoundException {
+        Pet pet = petService.getPetById(petId);
+        Appointment appointment = new Appointment();
+        appointment.setPet(pet);
+        model.addAttribute("pet", pet);
+        model.addAttribute("appointment", appointment);
+        return "make-appointment";
+    }
+
+    @PostMapping("/saveAppointment")
+    public String saveAppointment(@ModelAttribute("appointment") Appointment newAppointment) throws RecordNotFoundException {
+//        if(result.hasErrors()){
+//            return "make-appointment";
+//        }
+        appointmentService.saveOrUpdateAppointment(newAppointment);
+        return "redirect:/appointment";
+    }
 }

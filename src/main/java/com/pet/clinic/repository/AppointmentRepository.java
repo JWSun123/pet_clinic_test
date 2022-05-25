@@ -15,6 +15,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     //TODO: Page pagable.
 
 
-    @Query(value = "select * from appointments where appointment_date = :appointmentDate order by appointment_date", nativeQuery = true)
-    List<Appointment> findByDate(@Param("appointmentDate") Date appointmentDate);
+//    @Query(value = "select * from appointments where appointment_date = :appointmentDate order by appointment_date", nativeQuery = true)
+//    List<Appointment> findByAppointmentDate(@Param("appointmentDate") Date appointmentDate);
 }

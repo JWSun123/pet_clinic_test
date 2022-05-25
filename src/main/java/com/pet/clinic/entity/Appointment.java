@@ -4,11 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.tomcat.jni.Local;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
 @Entity
 @Table(name = "appointments")
@@ -20,13 +26,15 @@ public class Appointment extends IdBaseEntity{
 
     @NotEmpty
     @Column(name = "appointment_date")
-    private Date appointmentDate;
+//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+//    @DateTimeFormat(pattern = "yyyy/MM/dd'T'HH:mm:ss")
+    private String appointmentDate;
 
     @Column(name = "description")
     @Size(max = 200)
     private String description;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;

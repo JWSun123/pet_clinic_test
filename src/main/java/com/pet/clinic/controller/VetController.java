@@ -24,7 +24,7 @@ public class VetController {
 
     // home page for Vet, show all a table of all vets.
     @GetMapping("/vet")
-    public String getAllVets(Model model) {
+    public String getAllVets(Model model){
         List<Vet> vetList = vetService.getAllVets();
         model.addAttribute("vets", vetList);
         return "vet-list";

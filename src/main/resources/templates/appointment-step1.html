@@ -12,6 +12,7 @@
         <!-- sidebar -->
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
+        <div class="container">
         <h3 class="pt-3">Step 1: Search for pet</h3>
         <div class="mt-3 col-8">
             <form th:action="@{/findPetForAppointment}" method="get">
@@ -47,6 +48,7 @@
 <!--                </tbody>-->
 <!--            </table>-->
 <!--        </div>-->
+        </div>
     </div>
 </div>
 </body>
