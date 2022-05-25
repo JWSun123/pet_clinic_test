@@ -2,6 +2,7 @@ package com.pet.clinic.entity;
 
 import lombok.*;
 import org.hibernate.annotations.*;
+import org.springframework.format.annotation.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -27,6 +28,7 @@ public class Pet extends IdBaseEntity {
     @NotEmpty
     @Column(name = "dob")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dob;
 
     @ManyToOne
