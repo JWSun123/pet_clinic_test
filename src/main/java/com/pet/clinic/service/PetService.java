@@ -21,10 +21,9 @@ public class PetService {
 
     public List<Pet> findPetByKeyword(String keyword) throws RecordNotFoundException {
         List<Pet> pets = petRepository.findByKeyword(keyword);
-        if(pets.size() != 0){
+        if (pets.size() != 0) {
             return pets;
-        }
-        else{
+        } else {
             throw new RecordNotFoundException("Pet Not Found");
         }
     }
@@ -33,18 +32,18 @@ public class PetService {
         return petRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
-    public Pet getPetById(Long id) throws RecordNotFoundException{
+    public Pet getPetById(Long id) throws RecordNotFoundException {
         Optional<Pet> pet = petRepository.findById(id);
-        if (pet.isPresent()){
+        if (pet.isPresent()) {
             return pet.get();
         }
         throw new RecordNotFoundException("Pet Not Found");
     }
 
-    public void saveOrUpdatePet(Pet newPet) throws RecordNotFoundException{
-        if (newPet.getId() == null){
+    public void saveOrUpdatePet(Pet newPet) throws RecordNotFoundException {
+        if (newPet.getId() == null) {
             petRepository.save(newPet);
-        }else{
+        } else {
             Pet petFromDb = getPetById(newPet.getId());
             petFromDb.setPetName(newPet.getPetName());
             petFromDb.setDob(newPet.getDob());
@@ -53,8 +52,7 @@ public class PetService {
         }
     }
 
-    public void deletePet(Long petId){
+    public void deletePet(Long petId) {
         petRepository.deleteById(petId);
     }
-
 }
