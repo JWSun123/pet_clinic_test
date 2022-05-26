@@ -1,5 +1,6 @@
 package com.pet.clinic.service;
 
+import com.pet.clinic.entity.Owner;
 import com.pet.clinic.entity.Pet;
 import com.pet.clinic.exception.RecordNotFoundException;
 import com.pet.clinic.repository.PetRepository;
@@ -49,12 +50,19 @@ public class PetService {
             petFromDb.setPetName(newPet.getPetName());
             petFromDb.setDob(newPet.getDob());
             petFromDb.setPetType(newPet.getPetType());
+            petFromDb.setOwner(newPet.getOwner());
             petRepository.save(petFromDb);
         }
     }
 
     public void deletePet(Long petId){
         petRepository.deleteById(petId);
+    }
+
+    //Get all pet by ownerId
+    public void petsByOwnerId(Pet pet, Owner owner) throws RecordNotFoundException{
+        pet.setOwner(owner);
+        saveOrUpdatePet(pet);
     }
 
 }

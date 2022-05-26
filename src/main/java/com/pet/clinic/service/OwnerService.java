@@ -19,7 +19,6 @@ public class OwnerService {
     private final OwnerRepository ownerRepository;
     private final PetRepository petRepository;
 
-    //constructor
     public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository) {
         this.ownerRepository = ownerRepository;
         this.petRepository = petRepository;
@@ -30,7 +29,7 @@ public class OwnerService {
         return ownerRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
-    //save or update
+    //save or update owner
     public void saveOrUpdateOwner (Owner newOwner) throws RecordNotFoundException {
         if (newOwner.getId() == null) {
             ownerRepository.save(newOwner);
@@ -41,11 +40,12 @@ public class OwnerService {
             ownerFromDb.setEmail(newOwner.getEmail());
             ownerFromDb.setTel(newOwner.getTel());
             ownerFromDb.setAddress(newOwner.getAddress());
+            ownerFromDb.setPet(newOwner.getPet());
             ownerRepository.save(ownerFromDb);
         }
     }
 
-    //search by id
+    //TODO:Change it to the query of Jingwen in repo
     public Owner getOwnerById(Long id) throws RecordNotFoundException{
         Optional<Owner> owner = ownerRepository.findById(id);
         if (owner.isPresent()) {
@@ -54,7 +54,7 @@ public class OwnerService {
         throw new RecordNotFoundException("There no client with this Id.");
     }
 
-    //search by tel
+    //search by tel TODO:Change it to the query of Jingwen in repo
     public Owner getOwnerByTel(String tel) throws RecordNotFoundException {
         //should be able to find with partial number
         List<Owner> allOwners = ownerRepository.findAll();
@@ -98,4 +98,10 @@ public class OwnerService {
         String stringOfNames = String.join(",", nameList);
         return stringOfNames;
     }*/
+
+    //Save pet with owner
+    public void savePetByOwnerId(List<Pet> pet, Owner owner) throws RecordNotFoundException {
+        owner.setPet(pet);
+        saveOrUpdateOwner(owner);
+    }
 }

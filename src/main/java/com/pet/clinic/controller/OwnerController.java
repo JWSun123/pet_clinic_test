@@ -1,8 +1,13 @@
 package com.pet.clinic.controller;
 
 import com.pet.clinic.entity.Owner;
+import com.pet.clinic.entity.Pet;
+import com.pet.clinic.entity.PetType;
 import com.pet.clinic.exception.RecordNotFoundException;
+import com.pet.clinic.repository.PetTypeRepository;
 import com.pet.clinic.service.OwnerService;
+import com.pet.clinic.service.PetService;
+import com.pet.clinic.service.PetTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,47 +15,51 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 public class OwnerController {
 
     private final OwnerService ownerService;
+    private final PetService petService;
+    private final PetTypeService petTypeService;
 
-    public OwnerController(OwnerService ownerService) {
+    public OwnerController(OwnerService ownerService, PetService petService, PetTypeRepository petTypeRepository, PetTypeService petTypeService) {
         this.ownerService = ownerService;
+        this.petService = petService;
+        this.petTypeService = petTypeService;
     }
 
-    //get all owner (have pagination)
+    //List of clients TODO: add pagination if there's a lot of clients.
     @GetMapping("/clients")
     public String getOwner(Model model) {
         List<Owner> ownerList = ownerService.getAllOwners();
+        List<Pet> petList; // In pets table, I have pet_name associated with owner_id. I want to retrieve every pet and make it a string.
         //getPetByOwnerId(Long id)
         //String petNamesString = ownerService.nameAllPets();
         model.addAttribute("owner", ownerList);
         //pass concatenated pet's name
 
         //model.addAttribute("pet")
-        return "owner-page";
+        return "owner-list";
     }
 
     //add new owner
     @GetMapping("/addClient")
     public String newOwner(Model model) {
         Owner owner = new Owner();
+        Pet pet = new Pet();
+        PetType petType = new PetType();
+        List<PetType> petNames = petTypeService.getAllPetType();
         model.addAttribute("owner", owner);
+        model.addAttribute("pet", pet);
+        model.addAttribute("petType", petType);
+        model.addAttribute("petNames", petNames);
         return "add-owner";
     }
 
-    //save existing or new owner
-    @PostMapping("/saveClient")
-    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner,BindingResult result) throws RecordNotFoundException {
-        if (result.hasErrors()) {
-            return "add-owner";
-        }
-        ownerService.saveOrUpdateOwner(owner);
-        return "redirect:/clients";
-    }
+
     //edit owner
     @GetMapping("/updateOwner/{id}")
     public String updateOwnerById(@PathVariable(value = "id") Long id, Model model) throws RecordNotFoundException {
@@ -75,7 +84,39 @@ public class OwnerController {
             ownerList.add(ownerService.getOwnerById(Long.valueOf(query)));
         }
         model.addAttribute("owner", ownerList);
-        return "owner-page";
+        return "owner-list";
     }
     //Need to figure out to get pets
+
+    //save existing or new owner with the pet
+    @PostMapping("/saveClient")
+    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, Pet pet, PetType petType, BindingResult result, Model model) throws RecordNotFoundException {
+        if (result.hasErrors()) {
+            return "add-owner";
+        }
+        try{
+            //Owner
+            List<Pet> petList = new ArrayList<>();
+            //Need to iterate through the list of the pets once that is figured out
+            petList.add(pet);
+            owner.setPet(petList);
+            ownerService.savePetByOwnerId(owner.getPet(), owner);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            //Pet
+            pet.setPetType(petType);
+            petService.petsByOwnerId(pet, pet.getOwner());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            //PetType
+            petTypeService.saveOrUpdatePetType(petType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/clients";
+    }
 }
