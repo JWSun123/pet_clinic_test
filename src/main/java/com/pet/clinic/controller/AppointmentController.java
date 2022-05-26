@@ -7,9 +7,10 @@ import com.pet.clinic.service.AppointmentService;
 import com.pet.clinic.service.PetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -23,25 +24,61 @@ public class AppointmentController {
     }
 
     @GetMapping("/appointment")
-    public String getAllAppointment(Model model){
+    public String getAllAppointment(Model model) {
+
         List<Appointment> appointments = appointmentService.getAllAppointment();
         model.addAttribute("appointments", appointments);
-        return "appointment-list";
+        return "appointment/appointment-list";
+    }
+
+    @GetMapping("/appointmentByDate")
+    public String getAppointmentByDate(@RequestParam("appointmentDate")String appointmentDate, Model model){
+        List<Appointment> appointments = appointmentService.getAppointmentByDate(appointmentDate);
+        model.addAttribute("appointments", appointments);
+        return "appointment/appointment-list";
     }
 
     @GetMapping("/makeAppointment")
-    public String makeAppointment(Model model){
-        return "appointment-step1";
+    public String showAppointmentPage() {
+        return "appointment/appointment-step1";
     }
 
     @GetMapping("/findPetForAppointment")
     public String findPet(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException {
         List<Pet> pets;
         if (keyword != null) pets = petService.findPetByKeyword(keyword);
-        else {pets = petService.getAllPets();}
+        else {
+            pets = petService.getAllPets();
+        }
 
         model.addAttribute("pets", pets);
-        return "appointment-pet";
+        return "appointment/appointment-pet";
     }
 
+    @GetMapping("/makeAppointment/{petId}")
+    public String makeAppointment(@PathVariable(value = "petId") Long petId, Model model) throws RecordNotFoundException {
+        Pet pet = petService.getPetById(petId);
+        Appointment appointment = new Appointment();
+        appointment.setPet(pet);
+        model.addAttribute("pet", pet);
+        model.addAttribute("appointment", appointment);
+        return "appointment/make-appointment";
+    }
+
+    @PostMapping("/saveAppointment")
+    public String saveAppointment(@Valid @ModelAttribute("appointment") Appointment newAppointment, BindingResult result, Model model) throws RecordNotFoundException {
+        if(result.hasErrors()){
+            // if I want to stay at the current page, petId is required.
+            model.addAttribute("pet", newAppointment.getPet());
+            return "appointment/make-appointment";
+        }
+        appointmentService.saveOrUpdateAppointment(newAppointment);
+        return "redirect:/appointment";
+    }
+
+    @GetMapping("/cancelAppointment/{appointmentId}")
+    public String cancelAppointment(@PathVariable(value = "appointmentId") Long appointmentId){
+        appointmentService.cancelAppointment(appointmentId);
+        return "redirect:../appointment";
+    }
 }

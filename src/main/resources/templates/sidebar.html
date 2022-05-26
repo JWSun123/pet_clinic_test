@@ -5,7 +5,7 @@
 
     <ul class="nav nav-pills flex-column mb-auto">
       <li>
-        <a href="#" class="nav-link">
+        <a th:href="@{/index}" class="nav-link">
           <i class="bi bi-speedometer2"></i>
           Dashboard
         </a>
@@ -18,8 +18,8 @@
         </a>
         <div class="collapse" id="home-collapse4" style="">
           <ul class="btn-toggle-nav nav-link list-unstyled fw-normal pb-1 small">
-            <li class="nav-link"><a href="#">view appointments</a></li>
-            <li class="nav-link"><a href="#">add  appointment</a></li>
+            <li class="nav-link"><a th:href="@{/appointment}">view appointments</a></li>
+            <li class="nav-link"><a th:href="@{/makeAppointment}">add  appointment</a></li>
           </ul>
         </div>
       </li>
@@ -61,7 +61,7 @@
         </a>
         <div class="collapse" id="home-collapse3" style="">
           <ul class="btn-toggle-nav nav-link list-unstyled fw-normal pb-1 small">
-            <li class="nav-link"><a href="#">view pets</a></li>
+            <li class="nav-link"><a th:href="@{/pet}">view pets</a></li>
             <li class="nav-link"><a th:href="@{/pet-type}">view pet type</a></li>
           </ul>
         </div>

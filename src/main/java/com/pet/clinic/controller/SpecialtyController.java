@@ -27,7 +27,7 @@ public class SpecialtyController {
     public String getAllSpecialty(Model model) {
         List<Specialty> specialtyList = specialtyService.getAllSpecialty();
         model.addAttribute("specialties", specialtyList);
-        return "specialty-list";
+        return "specialty/specialty-list";
     }
 
     // when clicking add specialty button. shows a form for adding.
@@ -35,14 +35,14 @@ public class SpecialtyController {
     public String addSpecialty(Model model) {
         Specialty specialty = new Specialty();
         model.addAttribute("specialty", specialty);
-        return "add-specialty";
+        return "specialty/add-specialty";
     }
 
     // when clicking the save button. redirect to the specialty page.
     @PostMapping("/saveSpecialty")
     public String saveSpecialty(@Valid @ModelAttribute("specialty") Specialty newSpecialty, BindingResult result) throws RecordNotFoundException {
         if (result.hasErrors()) {
-            return "add-specialty";
+            return "specialty/add-specialty";
         }
         specialtyService.saveOrUpdateSpecialty(newSpecialty);
         return "redirect:/specialty";
@@ -53,14 +53,14 @@ public class SpecialtyController {
     public String showSpecialtyForUpdate(@PathVariable(value = "specialtyId") Long specialtyId, Model model) throws RecordNotFoundException {
         Specialty specialty = specialtyService.getSpecialtyById(specialtyId);
         model.addAttribute("specialty", specialty);
-        return "update-specialty";
+        return "specialty/update-specialty";
     }
 
     // when clicking update, redirect to the specialty page.
     @PostMapping("/updateSpecialty")
     public String updateSpecialty(@Valid @ModelAttribute("specialty") Specialty updateSpecialty, BindingResult result) throws RecordNotFoundException {
         if (result.hasErrors()){
-            return "update-specialty";
+            return "specialty/update-specialty";
         }
         specialtyService.saveOrUpdateSpecialty(updateSpecialty);
         return "redirect:/specialty";
@@ -77,6 +77,6 @@ public class SpecialtyController {
     public String getVetBySpecialty(@PathVariable(value = "specialtyId") Long specialtyId, Model model) throws RecordNotFoundException {
         Set<Vet> vets = specialtyService.getVetBySpecialty(specialtyId);
         model.addAttribute("vets", vets);
-        return "vet-by-specialty";
+        return "specialty/vet-by-specialty";
     }
 }
