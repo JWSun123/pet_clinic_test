@@ -50,8 +50,29 @@
             </div>
             <div class="row justify-content-center">
                 <h3>Pet's information</h3>
+                <div th:object="${pet}">
+                    <div class="col-3 mt-3">
+                        <label for="petname">Name:</label>
+                        <input type="text" th:field="*{petName}" id="petname" placeholder="Name" class="form-control"/>
+                        <p th:if="${#fields.hasErrors('petName')}" th:errorclass="error" th:errors="*{petName}"></p>
+                    </div>
+                    <div class="col-3 mt-3">
+                        <label for="dob">Date of birth:</label>
+                        <input type="date" th:field="*{dob}" id="dob" placeholder="Date of birth" class="form-control"/>
+                        <p th:if="${#fields.hasErrors('dob')}" th:errorclass="error" th:errors="*{dob}"></p>
+                    </div>
+                    <div class="col-3 mt-3">
+                        <label>Type:</label>
+                        <select th:field="*{petType}" class="form-control">
+                            <option th:each="type : ${petNames}" th:value="${type.getId()}" th:text="${type.getPetTypeName()}"></option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <button type="submit" class="btn btn-info col-2">Save</button>
+        </form>
+        <form >
+
         </form>
     </div>
     </div>

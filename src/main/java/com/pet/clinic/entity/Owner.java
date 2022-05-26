@@ -4,9 +4,12 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "owners")
@@ -19,5 +22,8 @@ public class Owner extends Person{
     @Size(max = 200)
     @NotEmpty
     private String address;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Pet> pet;
 }
 

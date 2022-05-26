@@ -19,7 +19,6 @@ public class OwnerService {
     private final OwnerRepository ownerRepository;
     private final PetRepository petRepository;
 
-    //constructor
     public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository) {
         this.ownerRepository = ownerRepository;
         this.petRepository = petRepository;
@@ -30,10 +29,23 @@ public class OwnerService {
         return ownerRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
-    //save or update
-    public void saveOrUpdateOwner (Owner newOwner) throws RecordNotFoundException {
+    //save or update owner
+    public void saveOrUpdateOwner (Owner newOwner, Pet pet) throws RecordNotFoundException {
         if (newOwner.getId() == null) {
+            newOwner.setFirstName(newOwner.getFirstName());
+            newOwner.setLastName(newOwner.getLastName());
+            newOwner.setTel(newOwner.getTel());
+            newOwner.setAddress(newOwner.getAddress());
+            newOwner.setEmail(newOwner.getEmail());
+
+            List<Pet> pets=new ArrayList<>();
+            pets.add(pet);
+            newOwner.setPet(pets);
+
             ownerRepository.save(newOwner);
+
+            pet.setOwner(newOwner);
+            petRepository.save(pet);
         } else {
             Owner ownerFromDb = getOwnerById(newOwner.getId());
             ownerFromDb.setFirstName(newOwner.getFirstName());
@@ -41,11 +53,18 @@ public class OwnerService {
             ownerFromDb.setEmail(newOwner.getEmail());
             ownerFromDb.setTel(newOwner.getTel());
             ownerFromDb.setAddress(newOwner.getAddress());
+
+            List<Pet> pets=ownerFromDb.getPet();
+            pets.add(pet);
+            ownerFromDb.setPet(pets);
             ownerRepository.save(ownerFromDb);
+
+            pet.setOwner(newOwner);
+            petRepository.save(pet);
         }
     }
 
-    //search by id
+    //TODO:Change it to the query of Jingwen in repo
     public Owner getOwnerById(Long id) throws RecordNotFoundException{
         Optional<Owner> owner = ownerRepository.findById(id);
         if (owner.isPresent()) {
@@ -54,7 +73,7 @@ public class OwnerService {
         throw new RecordNotFoundException("There no client with this Id.");
     }
 
-    //search by tel
+    //search by tel TODO:Change it to the query of Jingwen in repo
     public Owner getOwnerByTel(String tel) throws RecordNotFoundException {
         //should be able to find with partial number
         List<Owner> allOwners = ownerRepository.findAll();
@@ -98,4 +117,10 @@ public class OwnerService {
         String stringOfNames = String.join(",", nameList);
         return stringOfNames;
     }*/
+
+//    //Save pet with owner
+//    public void savePetByOwnerId(List<Pet> pet, Owner owner) throws RecordNotFoundException {
+//        owner.setPet(pet);
+//        saveOrUpdateOwner(owner);
+//    }
 }
