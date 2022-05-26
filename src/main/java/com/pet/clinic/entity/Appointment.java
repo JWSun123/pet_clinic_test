@@ -29,7 +29,7 @@ public class Appointment extends IdBaseEntity{
 //    @Size(min=1, message = "Please choose a date.")
     @Column(name = "appointment_date")
 //    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-//    @DateTimeFormat(pattern = "yyyy/MM/dd'T'HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private String appointmentDate;
 
     @Column(name = "description")

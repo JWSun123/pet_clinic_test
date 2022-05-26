@@ -20,14 +20,8 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
-    public List<Pet> findPetByKeyword(String keyword) throws RecordNotFoundException {
-        List<Pet> pets = petRepository.findByKeyword(keyword);
-        if(pets.size() != 0){
-            return pets;
-        }
-        else{
-            throw new RecordNotFoundException("Pet Not Found");
-        }
+    public List<Pet> findPetByKeyword(String keyword){
+        return petRepository.findByKeyword(keyword);
     }
 
     public List<Pet> getAllPets() {

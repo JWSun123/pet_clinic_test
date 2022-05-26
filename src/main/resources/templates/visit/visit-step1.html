@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <div th:replace="header :: myheader"></div>
+</head>
+<body>
+<div>
+    <nav th:replace="navbar :: mynavbar"></nav>
+</div>
+<div id="viewport">
+    <div id="content">
+        <!-- sidebar -->
+        <div th:replace="sidebar :: mysidebar"></div>
+        <!--        content starts here!-->
+
+        <div class="pt-3">
+            <h3>Search pet to add a visit</h3>
+            <div class="mt-3 col-8">
+                <form th:action="@{/findPetForAddVisit}" method="get">
+                    <input type="text" name="keyword"  placeholder="Find Pet by Name, Owner Name, Tel or Email" class="col-8" >
+                    <button type="submit" class="btn btn-outline-secondary" >Search</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div th:insert="footer :: foot"></div>
+</body>
+</html>
