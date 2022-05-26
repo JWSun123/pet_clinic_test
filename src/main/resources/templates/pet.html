@@ -29,8 +29,8 @@
                     <td th:text="${pet.getId()}"></td>
                     <td th:text="${pet.getPetName()}"></td>
                     <td th:text="${pet.getDob()}"></td>
-                    <td th:text="${pet.getPetType()}"></td>
-                    <td th:text="${pet.getOwner()}"></td>
+                    <td th:text="${pet.getPetType().petTypeName}"></td>
+                    <td th:text="${pet.getOwner().getFirstName()}"></td>
                     <td><a th:href="@{deletePet/{petId}(petId=${pet.getId()})}">delete</a> |
                         <a th:href="@{showPetInfoForUpdate/{petId} (petId=${pet.getId()})}">modify</a> </td>
                 </tr>

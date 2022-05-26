@@ -28,7 +28,7 @@ public class Pet extends IdBaseEntity implements Serializable {
     @NotNull(message = "You must select the date of birth")
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
 
     @ManyToOne
