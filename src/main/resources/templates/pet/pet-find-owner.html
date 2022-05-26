@@ -12,7 +12,7 @@
         <!-- sidebar -->
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
-        <div>
+        <div class="container-fluid">
             <table class="table">
                 <thead>
                 <tr>
@@ -38,6 +38,11 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="card text-center w-75 mt-2">
+                <div class="card-body">
+                    <p>if the owner that you are looking for is not in our record, please <span><a th:href="@{addClient}">click here</a></span></p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
