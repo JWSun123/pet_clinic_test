@@ -13,7 +13,7 @@
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
         <div class="pt-3 container-fluid">
-            <a class="btn btn-primary" th:href="@{addPet}">Add a Pet</a>
+            <a class="btn btn-primary" th:href="@{findOwner}">Add a Pet</a>
         </div>
         <div>
             <table class="table">
@@ -29,8 +29,8 @@
                     <td th:text="${pet.getId()}"></td>
                     <td th:text="${pet.getPetName()}"></td>
                     <td th:text="${pet.getDob()}"></td>
-                    <td th:text="${pet.getPetType()}"></td>
-                    <td th:text="${pet.getOwner()}"></td>
+                    <td th:text="${pet.getPetType().getPetTypeName()}"></td>
+                    <td th:text="${pet.getOwner().getFirstName()}"></td>
                     <td><a th:href="@{deletePet/{petId}(petId=${pet.getId()})}">delete</a> |
                         <a th:href="@{showPetInfoForUpdate/{petId} (petId=${pet.getId()})}">modify</a> </td>
                 </tr>

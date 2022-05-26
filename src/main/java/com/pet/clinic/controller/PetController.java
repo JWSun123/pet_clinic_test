@@ -1,6 +1,6 @@
 package com.pet.clinic.controller;
 
-import com.pet.clinic.entity.Pet;
+import com.pet.clinic.entity.*;
 import com.pet.clinic.exception.RecordNotFoundException;
 import com.pet.clinic.service.*;
 import org.springframework.stereotype.Controller;
@@ -15,50 +15,61 @@ import java.util.List;
 public class PetController {
     private final PetService petService;
     private final PetTypeService petTypeService;
+    private final OwnerService ownerService;
 
-    public PetController(PetService petService, PetTypeService petTypeService) {
+    public PetController(PetService petService, PetTypeService petTypeService, OwnerService ownerService) {
         this.petService = petService;
         this.petTypeService = petTypeService;
+        this.ownerService = ownerService;
     }
 
     @GetMapping("/pet")
     public String getAllPets(Model model){
         List<Pet> petList = petService.getAllPets();
         model.addAttribute("pets", petList);
-        return "pet";
+        return "pet/pet-list";
     }
 
-    @GetMapping("/addPet")
-    public String addPet(Model model){
+    @GetMapping("/findOwner")
+    public String showPage(){
+        return "pet/find-owner";
+    }
+
+    @GetMapping("/addPet/{ownerId}")
+    public String addPet(@PathVariable(value = "ownerId") Long ownerId, Model model) throws RecordNotFoundException {
+        Owner owner = ownerService.getOwnerById(ownerId);
         Pet pet = new Pet();
+        pet.setOwner(owner);
+        model.addAttribute("owner", owner);
         model.addAttribute("pet", pet);
         model.addAttribute("petTypes", petTypeService.getAllPetType());
-        return "add-pet";
+        return "pet/add-pet";
     }
 
     @PostMapping("/savePet")
-    public String savePet(@Valid @ModelAttribute("pet") Pet newPet, BindingResult result) throws RecordNotFoundException {
+    public String savePet(@Valid @ModelAttribute("pet") Pet newPet, Model model, BindingResult result) throws RecordNotFoundException {
         if (result.hasErrors()) {
-            return "/add-pet";
+            model.addAttribute("owner", newPet.getOwner());
+            return "pet/add-pet";
         }
-        petService.saveOrUpdatePet(newPet);
+        petService.saveOrUpdatePet(newPet, newPet.getOwner());
         return "redirect:/pet";
     }
-
 
     @GetMapping("/showPetInfoForUpdate/{petId}")
     public String showPetInfoForUpdate(@PathVariable(value = "petId") Long petId, Model model) throws RecordNotFoundException {
         Pet pet = petService.getPetById(petId);
         model.addAttribute("pet", pet);
-        return "update-pet-info";
+        model.addAttribute("petTypes", petTypeService.getAllPetType());
+        return "pet/update-pet-info";
     }
 
     @PostMapping("/updatePetInfo")
     public String updatePetInfo(@Valid @ModelAttribute("pet") Pet updatePet, BindingResult result) throws RecordNotFoundException {
         if (result.hasErrors()) {
-            return "/update-pet-info";
+            return "pet/update-pet-info";
         }
-        petService.saveOrUpdatePet(updatePet);
+        petService.saveOrUpdatePet(updatePet, updatePet.getOwner());
         return "redirect:/pet";
     }
 
@@ -75,6 +86,19 @@ public class PetController {
         else {pets = petService.getAllPets();
         }
         model.addAttribute("pets", pets);
-        return "pet";
+        return "pet/pet-list";
     }
+
+    @GetMapping("/searchOwner")
+    public String searchOwnerByKeyword(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException {
+        List<Owner> owners;
+        if(keyword != null) {
+            owners = ownerService.findOwnerByKeyword(keyword);
+        }else{
+            owners = ownerService.getAllOwners();
+        }
+        model.addAttribute("owners", owners);
+        return "pet/pet-find-owner";
+    }
+
 }

@@ -18,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Pet extends IdBaseEntity implements Serializable {
+public class Pet extends IdBaseEntity{
 
     @NotEmpty(message = "Pet name is required")
     @Column(name = "pet_name")
@@ -26,9 +26,9 @@ public class Pet extends IdBaseEntity implements Serializable {
     private String petName;
 
     @NotNull(message = "You must select the date of birth")
-    @Column(name = "date_of_birth")
+    @Column(name = "dob")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
 
     @ManyToOne

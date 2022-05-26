@@ -25,7 +25,7 @@ public class PetTypeController {
     public String getAllPetType(Model model){
         List<PetType> petTypes = petTypeService.getAllPetType();
         model.addAttribute("petTypes", petTypes);
-        return "pet-type";
+        return "pet/pet-type";
     }
 
     //form of adding pet type after click add button
@@ -33,13 +33,13 @@ public class PetTypeController {
     public String addPetType(Model model){
         PetType petType = new PetType();
         model.addAttribute("petType", petType);
-        return "add-pet-type";
+        return "pet/add-pet-type";
     }
 
     @PostMapping("/savePetType")
     public String savePetType(@Valid @ModelAttribute("petType") PetType newPetType, BindingResult result) throws RecordNotFoundException {
         if(result.hasErrors()){
-            return "add-pet-type";
+            return "pet/add-pet-type";
         }
         petTypeService.saveOrUpdatePetType(newPetType);
         return "redirect:/pet-type";
@@ -50,7 +50,7 @@ public class PetTypeController {
     public String updatePetType(@PathVariable(value = "petTypeId") Long petTypeId, Model model) throws RecordNotFoundException {
         PetType petType = petTypeService.getPetTypeById(petTypeId);
         model.addAttribute("petType", petType);
-        return "updatePetType";
+        return "pet/updatePetType";
     }
 
     @GetMapping("/deletePetType/{petTypeId}")

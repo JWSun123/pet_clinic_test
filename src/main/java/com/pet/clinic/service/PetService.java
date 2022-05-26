@@ -1,8 +1,8 @@
 package com.pet.clinic.service;
 
-import com.pet.clinic.entity.Pet;
+import com.pet.clinic.entity.*;
 import com.pet.clinic.exception.RecordNotFoundException;
-import com.pet.clinic.repository.PetRepository;
+import com.pet.clinic.repository.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +14,16 @@ import java.util.Optional;
 public class PetService {
 
     private final PetRepository petRepository;
+    private final OwnerRepository ownerRepository;
 
-    public PetService(PetRepository petRepository) {
+    public PetService(PetRepository petRepository, OwnerRepository ownerRepository) {
         this.petRepository = petRepository;
+        this.ownerRepository = ownerRepository;
     }
 
-    public List<Pet> findPetByKeyword(String keyword) throws RecordNotFoundException {
+    public List<Pet> findPetByKeyword(String keyword) {
         List<Pet> pets = petRepository.findByKeyword(keyword);
-        if (pets.size() != 0) {
-            return pets;
-        } else {
-            throw new RecordNotFoundException("Pet Not Found");
-        }
+        return  pets;
     }
 
     public List<Pet> getAllPets() {
@@ -40,8 +38,9 @@ public class PetService {
         throw new RecordNotFoundException("Pet Not Found");
     }
 
-    public void saveOrUpdatePet(Pet newPet) throws RecordNotFoundException {
+    public void saveOrUpdatePet(Pet newPet, Owner owner) throws RecordNotFoundException {
         if (newPet.getId() == null) {
+            newPet.setOwner(owner);
             petRepository.save(newPet);
         } else {
             Pet petFromDb = getPetById(newPet.getId());

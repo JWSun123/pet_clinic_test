@@ -123,4 +123,9 @@ public class OwnerService {
 //        owner.setPet(pet);
 //        saveOrUpdateOwner(owner);
 //    }
+
+    public List<Owner> findOwnerByKeyword(String keyword){
+
+        return ownerRepository.findByKeyword(keyword);
+    }
 }
