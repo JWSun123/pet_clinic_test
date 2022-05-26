@@ -13,24 +13,30 @@
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
         <div class="container">
-            <h1 class="pt-3">Add A New Vet</h1>
+            <h1 class="pt-3">Add A New Pet</h1>
             <div>
                 <form th:action="@{savePet}" th:object="${pet}" method="post">
-                    <div class="form-group mt-3">
-                        <label th:classappend="${#fields.hasErrors('petName')} ? 'text-danger' : ''" for = "petName">First Name</label>
+                    <div class="form-group mt-3 col-6">
+                        <label th:classappend="${#fields.hasErrors('petName')} ? 'text-danger' : ''" for = "petName">Pet Name</label>
                         <input type="text" class = "form-control"  th:field="*{petName}" id="petName" placeholder="Enter pet's name">
+                        <p th:if="${#fields.hasErrors('petName')}" th:errors="*{petName}" class="text-danger"></p>
                     </div>
-                    <div class="form-group mt-3">
-                        <label for="birthdate">Date of birth</label>
-                        <div class="input-group date">
-                        <input type="text" class = "form-control"  th:field="*{dob}" autocomplete="off" id="birthdate" placeholder="Enter pet's birth date">
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    <div class="form-group mt-3 row col-6">
+                        <div class="col-md-4">
+                            <label for="birthdate">Date of birth</label>
+                            <div class="input-group date" id="datepicker">
+                                <input type="date" class = "datepicker_input form-control" autocomplete="off" th:value="*{dob}" th:field="*{dob}" id="birthdate" placeholder="DD/MM/YYYY">
                             </div>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-primary mt-3">Add Vet</button>
+                    <div class="form-group mt-3 col-6">
+                        <label class="form-label">Pet type</label>
+                        <select th:field="*{petType}" class="form-select">
+                            <option th:each="petType : ${petTypes}"
+                            th:value="${petType.getId()}" th:text="${petType.getPetTypeName()}"></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Add Pet</button>
                 </form>
             </div>
         </div>
