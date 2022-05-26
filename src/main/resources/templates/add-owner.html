@@ -61,12 +61,10 @@
                         <input type="date" th:field="*{dob}" id="dob" placeholder="Date of birth" class="form-control"/>
                         <p th:if="${#fields.hasErrors('dob')}" th:errorclass="error" th:errors="*{dob}"></p>
                     </div>
-                </div>
-                <div th:object="${petType}">
                     <div class="col-3 mt-3">
                         <label>Type:</label>
-                        <select name="type" class="form-control">
-                            <option th:each="type : ${petNames}" th:value="${petType.petTypeName}" th:text="${type.getPetTypeName()}"></option>
+                        <select th:field="*{petType}" class="form-control">
+                            <option th:each="type : ${petNames}" th:value="${type.getId()}" th:text="${type.getPetTypeName()}"></option>
                         </select>
                     </div>
                 </div>

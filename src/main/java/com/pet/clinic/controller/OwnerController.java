@@ -50,11 +50,9 @@ public class OwnerController {
     public String newOwner(Model model) {
         Owner owner = new Owner();
         Pet pet = new Pet();
-        PetType petType = new PetType();
         List<PetType> petNames = petTypeService.getAllPetType();
         model.addAttribute("owner", owner);
         model.addAttribute("pet", pet);
-        model.addAttribute("petType", petType);
         model.addAttribute("petNames", petNames);
         return "add-owner";
     }
@@ -90,33 +88,11 @@ public class OwnerController {
 
     //save existing or new owner with the pet
     @PostMapping("/saveClient")
-    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, Pet pet, PetType petType, BindingResult result, Model model) throws RecordNotFoundException {
+    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, @ModelAttribute("pet")Pet pet, BindingResult result, Model model) throws RecordNotFoundException {
         if (result.hasErrors()) {
             return "add-owner";
         }
-        try{
-            //Owner
-            List<Pet> petList = new ArrayList<>();
-            //Need to iterate through the list of the pets once that is figured out
-            petList.add(pet);
-            owner.setPet(petList);
-            ownerService.savePetByOwnerId(owner.getPet(), owner);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            //Pet
-            pet.setPetType(petType);
-            petService.petsByOwnerId(pet, pet.getOwner());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            //PetType
-            petTypeService.saveOrUpdatePetType(petType);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ownerService.saveOrUpdateOwner(owner, pet);
         return "redirect:/clients";
     }
 }

@@ -30,9 +30,22 @@ public class OwnerService {
     }
 
     //save or update owner
-    public void saveOrUpdateOwner (Owner newOwner) throws RecordNotFoundException {
+    public void saveOrUpdateOwner (Owner newOwner, Pet pet) throws RecordNotFoundException {
         if (newOwner.getId() == null) {
+            newOwner.setFirstName(newOwner.getFirstName());
+            newOwner.setLastName(newOwner.getLastName());
+            newOwner.setTel(newOwner.getTel());
+            newOwner.setAddress(newOwner.getAddress());
+            newOwner.setEmail(newOwner.getEmail());
+
+            List<Pet> pets=new ArrayList<>();
+            pets.add(pet);
+            newOwner.setPet(pets);
+
             ownerRepository.save(newOwner);
+
+            pet.setOwner(newOwner);
+            petRepository.save(pet);
         } else {
             Owner ownerFromDb = getOwnerById(newOwner.getId());
             ownerFromDb.setFirstName(newOwner.getFirstName());
@@ -40,8 +53,14 @@ public class OwnerService {
             ownerFromDb.setEmail(newOwner.getEmail());
             ownerFromDb.setTel(newOwner.getTel());
             ownerFromDb.setAddress(newOwner.getAddress());
-            ownerFromDb.setPet(newOwner.getPet());
+
+            List<Pet> pets=ownerFromDb.getPet();
+            pets.add(pet);
+            ownerFromDb.setPet(pets);
             ownerRepository.save(ownerFromDb);
+
+            pet.setOwner(newOwner);
+            petRepository.save(pet);
         }
     }
 
@@ -99,9 +118,9 @@ public class OwnerService {
         return stringOfNames;
     }*/
 
-    //Save pet with owner
-    public void savePetByOwnerId(List<Pet> pet, Owner owner) throws RecordNotFoundException {
-        owner.setPet(pet);
-        saveOrUpdateOwner(owner);
-    }
+//    //Save pet with owner
+//    public void savePetByOwnerId(List<Pet> pet, Owner owner) throws RecordNotFoundException {
+//        owner.setPet(pet);
+//        saveOrUpdateOwner(owner);
+//    }
 }
