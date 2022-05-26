@@ -16,6 +16,29 @@
             <img th:src="@{img/dog.jpg}" alt="dog running"/>
             <p class="text-light carousel-caption">Welcome to the Pet Clinic Management System</p>
         </div>
+        <div class="mt-3">
+            <h3>Today's Appointment List</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Pet ID</th>
+                    <th>Pet Name</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="appointment:${appointments}">
+                    <td th:text="${appointment.getAppointmentDate()}"></td>
+                    <td th:text="${appointment.getPet().getId()}"></td>
+                    <td th:text="${appointment.getPet().getPetName()}"></td>
+                    <td th:text="${appointment.getDescription()}"></td>
+                    <td><a th:href="@{/cancelAppointment/{appointmentId}(appointmentId=${appointment.getId()})}">cancel</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <div th:insert="footer :: foot"></div>
