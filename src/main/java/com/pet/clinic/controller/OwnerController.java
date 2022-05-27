@@ -93,8 +93,9 @@ public class OwnerController {
         if (result.hasErrors()) {
             return "owner/add-owner";
         }
+        List<Pet> ownerPet = owner.getPet();
+        ownerService.saveOrUpdateOwner(owner, ownerPet);
 
-        ownerService.saveOrUpdateOwner(owner, owner.getPet());
         return "redirect:/clients";
     }
 }

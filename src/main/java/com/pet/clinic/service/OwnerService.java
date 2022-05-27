@@ -55,7 +55,8 @@ public class OwnerService {
             List<Pet> previousPets=ownerFromDb.getPet();
 
             //Add or update pet based on pet id (I've overridden the equals())
-            List<Pet> toUpdate = petList;
+            List<Pet> toUpdate = new ArrayList<>();
+            toUpdate.addAll(petList);
             toUpdate.retainAll(previousPets);
 
             //Pets that don't have the same id as previousPets will be pets to add
