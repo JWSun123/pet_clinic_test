@@ -23,19 +23,15 @@ public class VisitService {
         return visitRepository.findAll(Sort.by(Sort.Direction.ASC, "visitDate"));
     }
 
-    public Visit getVisitById(Long visitId) throws RecordNotFoundException {
-        Optional<Visit> visit = visitRepository.findById(visitId);
-        if(visit.isPresent()){
-            return visit.get();
-        }
-        throw new RecordNotFoundException("Visit Not Found");
-    }
-
     public void saveVisit(Visit newVisit) {
         visitRepository.save(newVisit);
     }
 
     public List<Visit> getVisitByPetId(Long petId){
         return visitRepository.findVisitByPet(petId);
+    }
+
+    public List<Visit> getVisitByPet(String petName) {
+        return visitRepository.findByPetName(petName);
     }
 }

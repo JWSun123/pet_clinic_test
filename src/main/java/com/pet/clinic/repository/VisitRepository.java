@@ -12,4 +12,7 @@ public interface VisitRepository extends JpaRepository<Visit, Long> {
 
     @Query(value = "select * from visits where pet_id = :petId",nativeQuery = true)
     List<Visit> findVisitByPet(Long petId);
+
+    @Query(value = "select * from visits join pets on visits.pet_id = pets.id where pets.pet_name like %:petName%", nativeQuery = true)
+    List<Visit> findByPetName(String petName);
 }

@@ -17,6 +17,12 @@
             <div class="pt-3 col-10 mb-3">
                 <a class="btn btn-outline-primary" th:href="@{/addVisit}">Add A Visit</a>
             </div>
+            <div class="mt-3 col-10">
+                <form th:action="@{/getVisitByPet}" method="get">
+                    <input type="text" name="petName" class="col-8">
+                    <button type="submit" class="btn btn-outline-secondary" >Get Visit by Pet</button>
+                </form>
+            </div>
             <h3>Visit List</h3>
             <table class="table">
                 <thead>

@@ -70,4 +70,11 @@ public class VisitController {
         visitService.saveVisit(newVisit);
         return "redirect:/visit";
     }
+
+    @GetMapping("/getVisitByPet")
+    public String getVisitByPetName(@RequestParam("petName") String petName, Model model){
+        List<Visit> visits = visitService.getVisitByPet(petName);
+        model.addAttribute("visits", visits);
+        return "visit/visit-list";
+    }
 }
