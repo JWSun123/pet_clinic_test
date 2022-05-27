@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <div th:replace="header :: myheader"></div>
+</head>
+<body>
+    <div>
+        <nav th:replace="navbar :: mynavbar"></nav>
+    </div>
+    <div id="viewport">
+        <div id="content">
+            <!-- sidebar -->
+            <div th:replace="sidebar :: mysidebar"></div>
+            <!--        content starts here!-->
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <h1>Update client</h1>
+                </div>
+                <form th:action="@{/saveClient}" th:object="${owner}" method="post" class="form-group">
+                    <!-- Row with name-->
+                    <div class="row justify-content-center">
+                        <h3 class="formtitle">Client's information</h3>
+                        <div class="col-3 mt-3">
+                            <input type="hidden" th:field="*{id}"/>
+                            <label for="firstName">First name:</label>
+                            <input type="text" th:field="*{firstName}" id="firstName" th:placeholder="${owner.getFirstName()}" class="form-control"/>
+                            <p th:if="${#fields.hasErrors('firstName')}" th:errorclass="error" th:errors="*{firstName}"></p>
+                        </div>
+                        <div class="col-3 mt-3">
+                            <label for="lastName">Last name:</label>
+                            <input type="text" th:field="*{lastName}" id="lastName" th:placeholder="${owner.getLastName()}" class="form-control"/>
+                            <p th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}"></p>
+                        </div>
+                        <div class="col-3 mt-3">
+                            <label for="email">Email:</label>
+                            <input type="text" th:field="*{email}" id="email" th:placeholder="${owner.getEmail()}" class="form-control"/>
+                            <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 mt-3">
+                            <label for="address">Address:</label>
+                            <input type="text" th:field="*{address}" id="address" th:placeholder="${owner.getAddress()}" class="form-control"/>
+                            <p th:if="${#fields.hasErrors('address')}" th:errorclass="error" th:errors="*{address}"></p>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label for="tel">Telephone:</label>
+                            <input type="text" th:field="*{tel}" id="tel" th:placeholder="${owner.getTel()}" class="form-control"/>
+                            <p th:if="${#fields.hasErrors('tel')}" th:errorclass="error" th:errors="*{tel}"></p>
+                        </div>
+                        <h3>Pet's information</h3>
+                        <!--<div th:object="${petList}">-->
+                        <!--To access a list with status variable-->
+                            <div th:each="pet, itemStat : *{pet}" class="col-3 mt-3">
+                                <div>
+                                    <input type="hidden" th:field="*{pet[__${itemStat.index}__].id}"/>
+                                    <label for="petname">Name:</label>
+                                    <input type="text" th:field="*{pet[__${itemStat.index}__].petName}" id="petname" th:text="*{pet[__${itemStat.index}__].getPetName()}" class="form-control"/>
+                                    <p th:if="${#fields.hasErrors('pet[__${itemStat.index}__].petName')}" th:errorclass="error" th:errors="*{pet[__${itemStat.index}__].petName}"></p>
+                                </div>
+                                <div class="col-3 mt-3">
+                                    <label for="dob">Date of birth:</label>
+                                    <input type="date" th:field="*{pet[__${itemStat.index}__].dob}" id="dob" th:text="*{pet[__${itemStat.index}__].getDob()}" class="form-control"/>
+                                    <p th:if="${#fields.hasErrors('pet[__${itemStat.index}__].dob')}" th:errorclass="error" th:errors="*{pet[__${itemStat.index}__].dob}"></p>
+                                </div>
+                                <div class="col-3 mt-3">
+                                    <label>Type:</label>
+                                    <select th:field="*{pet[__${itemStat.index}__].petType}" class="form-control">
+                                        <option th:each="type : ${petNames}" th:value="${type.getId()}" th:text="${type.getPetTypeName()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p id="addNew" onclick="addNew()">Add a pet</p>
+                            <p id="test">Hello</p>
+                        <!--</div>-->
+                        <button type="submit" class="btn btn-info col-2">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:insert="footer :: foot"></div>
+</body>
+</html>

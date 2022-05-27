@@ -6,7 +6,7 @@ import com.pet.clinic.repository.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +34,21 @@ public class PetService {
         Optional<Pet> pet = petRepository.findById(id);
         if (pet.isPresent()) {
             return pet.get();
+        }
+        throw new RecordNotFoundException("Pet Not Found");
+    }
+
+    public List<Pet> getAllPetByOwner(Long id) throws RecordNotFoundException {
+        List<Pet> petList = petRepository.findAll();
+        Optional<Owner> owner = ownerRepository.findById(id);
+        List<Pet> foundPets = new ArrayList<>();
+        if (owner.isPresent()) {
+            for (Pet pet: petList) {
+                if (pet.getOwner().equals(owner)) {
+                    foundPets.add(pet);
+                }
+            }
+            return foundPets;
         }
         throw new RecordNotFoundException("Pet Not Found");
     }
