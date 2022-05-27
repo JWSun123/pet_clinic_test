@@ -47,7 +47,7 @@ public class PetController {
     }
 
     @PostMapping("/savePet")
-    public String savePet(@Valid @ModelAttribute("pet") Pet newPet, Model model, BindingResult result) throws RecordNotFoundException {
+    public String savePet(@Valid @ModelAttribute("pet") Pet newPet, BindingResult result, Model model) throws RecordNotFoundException {
         if (result.hasErrors()) {
             model.addAttribute("owner", newPet.getOwner());
             return "pet/add-pet";
@@ -80,7 +80,7 @@ public class PetController {
     }
 
     @GetMapping("/searchPet")
-    public String searchPetByKeyword(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException{
+    public String searchPetByKeyword(Model model, @RequestParam("keyword") String keyword) {
         List<Pet> pets;
         if (keyword != null) pets = petService.findPetByKeyword(keyword);
         else {pets = petService.getAllPets();
@@ -90,7 +90,7 @@ public class PetController {
     }
 
     @GetMapping("/searchOwner")
-    public String searchOwnerByKeyword(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException {
+    public String searchOwnerByKeyword(Model model, @RequestParam("keyword") String keyword) {
         List<Owner> owners;
         if(keyword != null) {
             owners = ownerService.findOwnerByKeyword(keyword);

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
 
-    @Query(value = "select * from pets join owners on owners.id = pets.owner_id where pets.pet_name like %:keyword% or owners.tel like %:keyword% or owners.email like %:keyword%", nativeQuery = true)
+    @Query(value = "select * from pets join owners on owners.id = pets.owner_id join pet_types pt on pt.id = pets.pet_type_id where pet_name like %:keyword% or tel like %:keyword% or email like %:keyword% or pet_type like %:keyword%", nativeQuery = true)
     List<Pet> findByKeyword(@Param("keyword") String keyword);
 
 }
