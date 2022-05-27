@@ -89,12 +89,12 @@ public class OwnerController {
     }
 
     @PostMapping("/saveClient")
-    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, @ModelAttribute("pet")Pet pet, BindingResult result) throws RecordNotFoundException {
-        if (result.hasErrors()) {
+    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @Valid @ModelAttribute("pet")Pet pet, BindingResult petResult) throws RecordNotFoundException {
+        if (result.hasErrors() || petResult.hasErrors()) {
             return "owner/add-owner";
         }
         List<Pet> ownerPet = owner.getPet();
-        ownerService.saveOrUpdateOwner(owner, ownerPet);
+        ownerService.saveOrUpdateOwner(owner, owner.getPet());
 
         return "redirect:/clients";
     }

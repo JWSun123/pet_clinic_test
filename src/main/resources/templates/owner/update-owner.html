@@ -23,31 +23,26 @@
                         <h3 class="formtitle">Client's information</h3>
                         <div class="col-3 mt-3">
                             <input type="hidden" th:field="*{id}"/>
-                            <label for="firstName">First name:</label>
+                            <label th:classappend="${#fields.hasErrors('firstName')} ? text-danger : ''" for="firstName">First name:</label>
                             <input type="text" th:field="*{firstName}" id="firstName" th:placeholder="${owner.getFirstName()}" class="form-control"/>
-                            <p th:if="${#fields.hasErrors('firstName')}" th:errorclass="error" th:errors="*{firstName}"></p>
                         </div>
                         <div class="col-3 mt-3">
-                            <label for="lastName">Last name:</label>
+                            <label th:classappend="${#fields.hasErrors('lastName')} ? text-danger : ''" for="lastName">Last name:</label>
                             <input type="text" th:field="*{lastName}" id="lastName" th:placeholder="${owner.getLastName()}" class="form-control"/>
-                            <p th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}"></p>
                         </div>
                         <div class="col-3 mt-3">
-                            <label for="email">Email:</label>
+                            <label th:classappend="${#fields.hasErrors('email')} ? text-danger : ''" for = "email">Email</label>
                             <input type="text" th:field="*{email}" id="email" th:placeholder="${owner.getEmail()}" class="form-control"/>
-                            <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></p>
                         </div>
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-4 mt-3">
-                            <label for="address">Address:</label>
+                            <label th:classappend="${#fields.hasErrors('address')} ? text-danger : ''" for="address">Address:</label>
                             <input type="text" th:field="*{address}" id="address" th:placeholder="${owner.getAddress()}" class="form-control"/>
-                            <p th:if="${#fields.hasErrors('address')}" th:errorclass="error" th:errors="*{address}"></p>
                         </div>
                         <div class="col-4 mt-3">
-                            <label for="tel">Telephone:</label>
+                            <label th:classappend="${#fields.hasErrors('tel')} ? text-danger : ''" for="tel">Telephone:</label>
                             <input type="text" th:field="*{tel}" id="tel" th:placeholder="${owner.getTel()}" class="form-control"/>
-                            <p th:if="${#fields.hasErrors('tel')}" th:errorclass="error" th:errors="*{tel}"></p>
                         </div>
                         <h3>Pet's information</h3>
                         <!--<div th:object="${petList}">-->
@@ -55,14 +50,14 @@
                             <div th:each="pet, itemStat : *{pet}" class="col-3 mt-3">
                                 <div>
                                     <input type="hidden" th:field="*{pet[__${itemStat.index}__].id}"/>
-                                    <label for="petname">Name:</label>
+                                    <label th:classappend="${#fields.hasErrors('*{pet[__${itemStat.index}__].petName}')} ? text-danger : ''" for="petname">Name:</label>
+                                    <!--<label th:classappend="${#fields.hasErrors('petName')} ? text-danger : ''" for="petname">Name:</label>-->
                                     <input type="text" th:field="*{pet[__${itemStat.index}__].petName}" id="petname" th:text="*{pet[__${itemStat.index}__].getPetName()}" class="form-control"/>
-                                    <p th:if="${#fields.hasErrors('pet[__${itemStat.index}__].petName')}" th:errorclass="error" th:errors="*{pet[__${itemStat.index}__].petName}"></p>
                                 </div>
                                 <div class="col-3 mt-3">
-                                    <label for="dob">Date of birth:</label>
+                                    <label th:classappend="${#fields.hasErrors('*{pet[__${itemStat.index}__].dob}')} ? text-danger : ''" for="dob">Date of birth:</label>
+                                    <!--<label th:classappend="${#fields.hasErrors('dob')} ? text-danger : ''" for="dob">Date of birth:</label>-->
                                     <input type="date" th:field="*{pet[__${itemStat.index}__].dob}" id="dob" th:text="*{pet[__${itemStat.index}__].getDob()}" class="form-control"/>
-                                    <p th:if="${#fields.hasErrors('pet[__${itemStat.index}__].dob')}" th:errorclass="error" th:errors="*{pet[__${itemStat.index}__].dob}"></p>
                                 </div>
                                 <div class="col-3 mt-3">
                                     <label>Type:</label>
@@ -74,6 +69,12 @@
                             <p id="addNew" onclick="addNew()">Add a pet</p>
                             <p id="test">Hello</p>
                         <!--</div>-->
+                        <div class="form-group mt-4">
+                            <ul>
+                                <h5 class="text-danger" th:if="${#fields.hasErrors()}">Please enter the correct information:</h5>
+                                <li th:each="err:${#fields.errors()}" th:text="${err}" class="text-danger"></li>
+                            </ul>
+                        </div>
                         <button type="submit" class="btn btn-info col-2">Save</button>
                     </div>
                 </form>
