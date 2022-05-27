@@ -1,5 +1,6 @@
 package com.pet.clinic.entity;
 
+import com.pet.clinic.constant.ErrorMessage;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -17,23 +18,23 @@ import javax.validation.constraints.Size;
 public class Person extends IdBaseEntity {
 
     @Column(name = "first_name")
-    @NotEmpty
-    @Size(max = 30)
+    @NotEmpty(message = ErrorMessage.FIRSTNAME_IS_REQUIRED_ERROR_MESSAGE)
+    @Size(max = 30, message = ErrorMessage.FIRSTNAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String firstName;
 
     @Column(name = "last_name")
-    @NotEmpty
-    @Size(max = 30)
+    @NotEmpty(message = ErrorMessage.LASTNAME_IS_REQUIRED_ERROR_MESSAGE)
+    @Size(max = 30, message = ErrorMessage.LASTNAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String lastName;
 
     @Column(name = "tel")
-    @NotEmpty
-    @Size(max = 15)
+    @NotEmpty(message = ErrorMessage.TEL_IS_REQUIRED_ERROR_MESSAGE)
+    @Size(max = 15, message = ErrorMessage.TEL_SIZE_LIMIT_ERROR_MESSAGE)
     private String tel;
 
 
     @Column(name = "email")
-    @Email
+    @Email(message = ErrorMessage.EMAIL_INVALID_ERROR_MESSAGE)
     private String email;
 
 }

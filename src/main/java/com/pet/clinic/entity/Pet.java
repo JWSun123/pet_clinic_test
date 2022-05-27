@@ -1,5 +1,6 @@
 package com.pet.clinic.entity;
 
+import com.pet.clinic.constant.ErrorMessage;
 import lombok.*;
 import org.hibernate.annotations.*;
 import org.springframework.format.annotation.*;
@@ -10,7 +11,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.*;
 import java.io.*;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "pets")
@@ -20,12 +20,13 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 public class Pet extends IdBaseEntity{
-    @NotEmpty(message = "Pet name is required")
+
+    @NotEmpty(message = ErrorMessage.PET_NAME_IS_REQUIRED_ERROR_MESSAGE)
     @Column(name = "pet_name")
-    @Size(max=30)
+    @Size(max=30, message = ErrorMessage.PET_NAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String petName;
 
-    @NotNull(message = "You must select the date of birth")
+    @NotNull(message = ErrorMessage.DOB_IS_REQUIRED_ERROR_MESSAGE)
     @Column(name = "dob")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -40,23 +41,4 @@ public class Pet extends IdBaseEntity{
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (getClass() != o.getClass()) {
-            return false;
-        }
-        Pet otherPet = (Pet) o;
-        return otherPet.getId().equals(this.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), petName, dob, petType, owner);
-    }
 }

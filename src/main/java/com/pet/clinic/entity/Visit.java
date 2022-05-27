@@ -1,12 +1,15 @@
 package com.pet.clinic.entity;
 
+import com.pet.clinic.constant.ErrorMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -19,15 +22,17 @@ import java.util.Date;
 @AllArgsConstructor
 public class Visit extends IdBaseEntity {
 
-    @NotEmpty
+    @NotEmpty(message = ErrorMessage.VISIT_DATE_IS_REQUIRED_ERROR_MESSAGE)
     @Column(name = "visit_date")
-    private Date visitDate;
+//    @Temporal(TemporalType.DATE)
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String visitDate;
 
     @Column(name = "description")
-    @Size(max = 200)
+    @Size(max = 200, message = ErrorMessage.DESCRIPTION_SIZE_LIMIT_ERROR_MESSAGE)
     private String description;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;

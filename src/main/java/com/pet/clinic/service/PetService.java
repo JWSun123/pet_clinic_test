@@ -22,8 +22,7 @@ public class PetService {
     }
 
     public List<Pet> findPetByKeyword(String keyword) {
-        List<Pet> pets = petRepository.findByKeyword(keyword);
-        return  pets;
+        return petRepository.findByKeyword(keyword);
     }
 
     public List<Pet> getAllPets() {
