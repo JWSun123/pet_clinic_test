@@ -1,5 +1,6 @@
 package com.pet.clinic.entity;
 
+import com.pet.clinic.constant.ErrorMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,14 +22,14 @@ import java.util.Date;
 @AllArgsConstructor
 public class Visit extends IdBaseEntity {
 
-    @NotNull
+    @NotEmpty(message = ErrorMessage.VISIT_DATE_IS_REQUIRED_ERROR_MESSAGE)
     @Column(name = "visit_date")
 //    @Temporal(TemporalType.DATE)
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String visitDate;
 
     @Column(name = "description")
-    @Size(max = 200)
+    @Size(max = 200, message = ErrorMessage.DESCRIPTION_SIZE_LIMIT_ERROR_MESSAGE)
     private String description;
 
     @NotNull

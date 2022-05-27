@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 public class PetType extends IdBaseEntity{
 
     @NotEmpty(message = ErrorMessage.PET_TYPE_IS_REQUIRED_ERROR_MESSAGE)
-    @Size(max = 50)
+    @Size(max = 50, message = ErrorMessage.PET_TYPE_SIZE_LIMIT_ERROR_MESSAGE)
     @Column(name = "petType")
     private String petTypeName;
 

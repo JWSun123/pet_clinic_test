@@ -1,5 +1,6 @@
 package com.pet.clinic.entity;
 
+import com.pet.clinic.constant.ErrorMessage;
 import lombok.*;
 import org.hibernate.annotations.*;
 import org.springframework.format.annotation.*;
@@ -20,12 +21,12 @@ import java.util.Date;
 @Builder
 public class Pet extends IdBaseEntity{
 
-    @NotEmpty(message = "Pet name is required")
+    @NotEmpty(message = ErrorMessage.PET_NAME_IS_REQUIRED_ERROR_MESSAGE)
     @Column(name = "pet_name")
-    @Size(max=30)
+    @Size(max=30, message = ErrorMessage.PET_NAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String petName;
 
-    @NotNull(message = "You must select the date of birth")
+    @NotNull(message = ErrorMessage.DOB_IS_REQUIRED_ERROR_MESSAGE)
     @Column(name = "dob")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

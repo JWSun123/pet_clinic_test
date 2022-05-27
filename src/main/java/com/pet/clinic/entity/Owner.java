@@ -1,5 +1,6 @@
 package com.pet.clinic.entity;
 
+import com.pet.clinic.constant.ErrorMessage;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -19,8 +20,8 @@ import java.util.Set;
 public class Owner extends Person{
 
     @Column(name = "address")
-    @Size(max = 200)
-    @NotEmpty
+    @Size(max = 200, message = ErrorMessage.ADDRESS_SIZE_LIMITE_ERROR_MESSAGE)
+    @NotEmpty(message = ErrorMessage.ADDRESS_IS_REQUIRED_ERROR_MESSAGE)
     private String address;
 
     @OneToMany(mappedBy = "owner")
