@@ -45,18 +45,18 @@
             </div>
             <div class="row justify-content-center">
                 <h3>Pet's information</h3>
-                <div th:object="${pet}">
+                <div th:each="pet, itemStat : *{pet}">
                     <div class="col-3 mt-3">
-                        <label th:classappend="${#fields.hasErrors('petName')} ? text-danger : ''" for="petname">Name:</label>
-                        <input type="text" th:field="*{petName}" id="petname" placeholder="Name" class="form-control"/>
+                        <label th:classappend="${#fields.hasErrors('pet[__${itemStat.index}__].petName')} ? text-danger : ''" for="petname">Name:</label>
+                        <input type="text" th:field="*{pet[__${itemStat.index}__].petName}" id="petname" placeholder="Please enter the pet's name" class="form-control"/>
                     </div>
                     <div class="col-3 mt-3">
-                        <label th:classappend="${#fields.hasErrors('dob')} ? text-danger : ''" for="dob">Date of birth:</label>
-                        <input type="date" th:field="*{dob}" id="dob" placeholder="Date of birth" class="form-control"/>
+                        <label th:classappend="${#fields.hasErrors('pet[__${itemStat.index}__].dob')} ? text-danger : ''" for="dob">Date of birth:</label>
+                        <input type="date" th:field="*{pet[__${itemStat.index}__].dob}" id="dob" class="form-control"/>
                     </div>
                     <div class="col-3 mt-3">
                         <label>Type:</label>
-                        <select th:field="*{petType}" class="form-control">
+                        <select th:field="*{pet[__${itemStat.index}__].petType}" class="form-control">
                             <option th:each="type : ${petNames}" th:value="${type.getId()}" th:text="${type.getPetTypeName()}"></option>
                         </select>
                     </div>
@@ -64,8 +64,8 @@
             </div>
             <div class="form-group mt-4">
                 <ul>
-                    <h5 class="text-danger" th:if="${#fields.hasAnyErrors()}">Please enter the correct information:</h5>
-                    <li th:each="err:${#fields.allErrors()}" th:text="${err}" class="text-danger"></li>
+                    <h5 class="text-danger" th:if="${#fields.hasErrors('*')}">Please enter the correct information:</h5>
+                    <li th:each="err:${#fields.errors('*')}" th:text="${err}" class="text-danger"></li>
                     <!--<li th:if="${#fields.hasErrors('petName')}">Invalid petname</li>-->
                     <!--<li th:if="${#fields.hasErrors('petName')} ? th:text ='' : ''" ></li>-->
                 </ul>

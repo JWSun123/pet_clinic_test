@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
-import java.io.*;
 import java.util.Date;
 import java.util.Objects;
 

@@ -43,7 +43,7 @@ public class PetService {
         List<Pet> foundPets = new ArrayList<>();
         if (owner.isPresent()) {
             for (Pet pet: petList) {
-                if (pet.getOwner().equals(owner)) {
+                if (pet.getOwner().getId() == owner.get().getId()) {
                     foundPets.add(pet);
                 }
             }

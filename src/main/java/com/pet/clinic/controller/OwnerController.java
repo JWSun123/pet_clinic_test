@@ -4,7 +4,6 @@ import com.pet.clinic.entity.Owner;
 import com.pet.clinic.entity.Pet;
 import com.pet.clinic.entity.PetType;
 import com.pet.clinic.exception.RecordNotFoundException;
-import com.pet.clinic.repository.PetTypeRepository;
 import com.pet.clinic.service.OwnerService;
 import com.pet.clinic.service.PetService;
 import com.pet.clinic.service.PetTypeService;
@@ -34,14 +33,9 @@ public class OwnerController {
     @GetMapping("/clients")
     public String getOwner(Model model) {
         List<Owner> ownerList = ownerService.getAllOwners();
-        List<Pet> petList = petService.getAllPets(); // In pets table, I have pet_name associated with owner_id. I want to retrieve every pet and make it a string.
-        //getPetByOwnerId(Long id)
-        //String petNamesString = ownerService.nameAllPets();
+        List<Pet> petList = petService.getAllPets();
         model.addAttribute("owner", ownerList);
         model.addAttribute("petList", petList);
-        //pass concatenated pet's name
-
-        //model.addAttribute("pet")
         return "owner/owner-list";
     }
 
@@ -50,6 +44,9 @@ public class OwnerController {
     public String newOwner(Model model) {
         Owner owner = new Owner();
         Pet pet = new Pet();
+        List<Pet> ownerPet = new ArrayList<>();
+        ownerPet.add(pet);
+        owner.setPet(ownerPet);
         List<PetType> petNames = petTypeService.getAllPetType();
         model.addAttribute("owner", owner);
         model.addAttribute("pet", pet);
@@ -69,6 +66,7 @@ public class OwnerController {
         model.addAttribute("petNames", petNames);
         return "owner/update-owner";
     }
+
     //delete
     @GetMapping("/deleteOwner/{id}")
     public String deleteOwnerById(@PathVariable(value = "id") Long id) {
@@ -76,26 +74,36 @@ public class OwnerController {
         return "redirect:/clients";
     }
     //search owner by name/phone
-    @PostMapping("/searchOwner")
-    public String searchOwner(@RequestParam(value = "query")String query, Model model) throws RecordNotFoundException {
-        List<Owner> ownerList = new ArrayList<>();
-        if(query.startsWith("(")) {
-            ownerList.add(ownerService.getOwnerByTel(query));
+    @GetMapping("/searchOwnerByKeyword")
+    public String searchOwner(@RequestParam(value = "keyword")String keyword, Model model) throws RecordNotFoundException {
+        List<Owner> ownerList;
+        if(!keyword.isEmpty()) {
+            ownerList = ownerService.getOwnerByKeyword(keyword);
         } else {
-            ownerList.add(ownerService.getOwnerById(Long.valueOf(query)));
+            ownerList = ownerService.getAllOwners();
         }
         model.addAttribute("owner", ownerList);
         return "owner/owner-list";
     }
 
     @PostMapping("/saveClient")
-    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @Valid @ModelAttribute("pet")Pet pet, BindingResult petResult) throws RecordNotFoundException {
+    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @ModelAttribute("pet")Pet pet, BindingResult petResult, Model model) throws RecordNotFoundException {
+        List<PetType> petNames = petTypeService.getAllPetType();
         if (result.hasErrors() || petResult.hasErrors()) {
-            return "owner/add-owner";
+            if (owner.getId() == null) {
+                List<Pet> ownerPet = new ArrayList<>();
+                ownerPet.add(pet);
+                owner.setPet(ownerPet);
+                model.addAttribute("petNames", petNames);
+                return "owner/add-owner";
+            }
+            model.addAttribute("petNames", petNames);
+            return "owner/update-owner";
         }
         List<Pet> ownerPet = owner.getPet();
-        ownerService.saveOrUpdateOwner(owner, owner.getPet());
+        ownerService.saveOrUpdateOwner(owner, ownerPet);
 
+        ownerService.saveOrUpdateOwner(owner, owner.getPet());
         return "redirect:/clients";
     }
 }
