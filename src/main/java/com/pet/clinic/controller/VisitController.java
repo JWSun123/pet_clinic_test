@@ -73,7 +73,12 @@ public class VisitController {
 
     @GetMapping("/getVisitByPet")
     public String getVisitByPetName(@RequestParam("petName") String petName, Model model){
-        List<Visit> visits = visitService.getVisitByPet(petName);
+        List<Visit> visits;
+        if(petName != null) {
+            visits = visitService.getVisitByPet(petName);
+        }else{
+            visits = visitService.getAllVisit();
+        }
         model.addAttribute("visits", visits);
         return "visit/visit-list";
     }

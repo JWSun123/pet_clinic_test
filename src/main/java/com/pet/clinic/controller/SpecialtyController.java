@@ -48,7 +48,7 @@ public class SpecialtyController {
         return "redirect:/specialty";
     }
 
-    // when clicking on modify for a specialty. shows a form for updateing.
+    // when clicking on modify for a specialty. shows a form for updating.
     @GetMapping("/showSpecialtyForUpdate/{specialtyId}")
     public String showSpecialtyForUpdate(@PathVariable(value = "specialtyId") Long specialtyId, Model model) throws RecordNotFoundException {
         Specialty specialty = specialtyService.getSpecialtyById(specialtyId);
