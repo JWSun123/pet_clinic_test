@@ -50,6 +50,9 @@ public class OwnerController {
     public String newOwner(Model model) {
         Owner owner = new Owner();
         Pet pet = new Pet();
+        List<Pet> ownerPet = new ArrayList<>();
+        ownerPet.add(pet);
+        owner.setPet(ownerPet);
         List<PetType> petNames = petTypeService.getAllPetType();
         model.addAttribute("owner", owner);
         model.addAttribute("pet", pet);
@@ -69,6 +72,7 @@ public class OwnerController {
         model.addAttribute("petNames", petNames);
         return "owner/update-owner";
     }
+
     //delete
     @GetMapping("/deleteOwner/{id}")
     public String deleteOwnerById(@PathVariable(value = "id") Long id) {
@@ -89,13 +93,50 @@ public class OwnerController {
     }
 
     @PostMapping("/saveClient")
-    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @Valid @ModelAttribute("pet")Pet pet, BindingResult petResult) throws RecordNotFoundException {
+    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @ModelAttribute("pet")Pet pet, BindingResult petResult, Model model) throws RecordNotFoundException {
+        List<PetType> petNames = petTypeService.getAllPetType();
         if (result.hasErrors() || petResult.hasErrors()) {
-            return "owner/add-owner";
+            if (owner.getId() == null) {
+                List<Pet> ownerPet = new ArrayList<>();
+                ownerPet.add(pet);
+                owner.setPet(ownerPet);
+                model.addAttribute("petNames", petNames);
+                return "owner/add-owner";
+            }
+            model.addAttribute("petNames", petNames);
+            return "owner/update-owner";
         }
         List<Pet> ownerPet = owner.getPet();
-        ownerService.saveOrUpdateOwner(owner, owner.getPet());
+        ownerService.saveOrUpdateOwner(owner, ownerPet);
 
+        ownerService.saveOrUpdateOwner(owner, owner.getPet());
         return "redirect:/clients";
     }
+/*
+    @PostMapping("/saveClient")
+    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @Valid @ModelAttribute("pet")Pet pet, BindingResult petResult, Model model) throws RecordNotFoundException {
+        List<PetType> petNames = petTypeService.getAllPetType();
+        if (result.hasErrors() || petResult.hasErrors()) {
+            if(owner.getId() != null) { //when it comes from update
+                List<Pet> petList = petService.getAllPetByOwner(owner.getId());
+                model.addAttribute("petList", petList);
+                model.addAttribute("petNames", petNames);
+                return "owner/update-owner";
+            } else {
+                model.addAttribute("petNames", petNames);
+                return "owner/add-owner";
+            }
+        }
+        if(owner.getId() != null) {
+            List<Pet> ownerPet = owner.getPet();
+            ownerService.saveOrUpdateOwner(owner, ownerPet);
+            return "redirect:/clients";
+        }
+        List<Pet> ownerPet = new ArrayList<>();
+        ownerPet.add(pet);
+        ownerService.saveOrUpdateOwner(owner, ownerPet);
+        return "redirect:/clients";
+    }*/
+
+
 }
