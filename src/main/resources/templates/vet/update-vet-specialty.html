@@ -14,13 +14,16 @@
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
         <div class="container">
-    <div>
+    <div class="row">
         <form th:action="@{/showVetSpecialty/{vetId}/addVetSpecialty(vetId=${vetId})}" th:object="${specialty}" method="post">
             <select th:field="*{id}">
                 <option th:each="restSpecialty: ${allRestSpecialties}" th:value="${restSpecialty.getId()}" th:text="${restSpecialty.getSpecialtyName()}"></option>
             </select>
             <button type="submit" class="btn btn-primary">Add A Specialty</button>
         </form>
+        <!--<form th:action="@{/addSpecialty}" method="get">
+            <button type="submit" class="btn btn-primary">Create New Specialty</button>
+        </form>-->
     </div>
 
     <div>

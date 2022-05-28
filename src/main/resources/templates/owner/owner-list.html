@@ -11,42 +11,47 @@
     <div id="content">
         <!-- sidebar -->
         <div th:replace="sidebar :: mysidebar"></div>
-        <!--        content starts here!-->
+        <!--content starts here!-->
         <div class="pt-3 container-fluid">
-    <h1>Owner table</h1>
-    <form th:action="@{/searchOwnerByKeyword}" method="get" class="form-group">
-        <input type="text" name ="keyword" placeholder="Search for an owner by ">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
-    <div>
-        <table class="table">
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Address</th>
-                <th>Tel</th>
-                <th>Email</th>
-                <th>Pets</th>
-                <th>Action</th>
-            </tr>
-            <tr th:each="owners, itemStat: ${owner}">
-                <td th:text="${owners.getId()}"></td>
-                <td th:text="${owners.getFirstName()}"></td>
-                <td th:text="${owners.getLastName()}"></td>
-                <td th:text="${owners.getAddress()}"></td>
-                <td th:text="${owners.getTel()}"></td>
-                <td th:text="${owners.getEmail()}"></td>
-                <td><a class="mx-1" th:each="pet : ${owners.pet}" th:href="@{/showPetInfoForUpdate/{petId}(petId=*{pet.getId()})}" th:text="*{pet.getPetName()}"></a></td>
-
-                <td><a th:href="@{/deleteOwner/{id}(id=${owners.getId()})}">delete</a> | <a th:href="@{/updateOwner/{id}(id=${owners.getId()})}">modify</a> | <a th:href="@{/addPet/{id}(id=${owners.getId()})}">Add pet</a></td>
-            </tr>
-        </table>
-    </div>
+            <h1 class="row justify-content-center">List of clients</h1>
+            <div class="mt-3 col-12 d-md-flex justify-content-md-end">
+                <form th:action="@{/searchOwnerByKeyword}" method="get">
+                    <input type="text" name ="keyword" placeholder="Search for an owner by their info or pets" size="40">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            <div class="row justify-content-center">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Tel</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Pets</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr th:each="owners, itemStat: ${owner}">
+                        <td th:text="${owners.getId()}"></td>
+                        <td th:text="${owners.getFirstName()}"></td>
+                        <td th:text="${owners.getLastName()}"></td>
+                        <td th:text="${owners.getTel()}"></td>
+                        <td th:text="${owners.getEmail()}"></td>
+                        <td th:text="${owners.getAddress()}"></td>
+                        <td><a th:each="pet, itemStat : ${owners.pet}" th:text="${pet.getPetName()} + ${!itemStat.last ? ', ' : ''}" th:href="@{/showPetInfoForUpdate/{petId}(petId=*{pet.getId()})}"></a></td>
+                        <td><a th:href="@{/deleteOwner/{id}(id=${owners.getId()})}">delete</a> | <a th:href="@{/updateOwner/{id}(id=${owners.getId()})}">modify</a> | <a th:href="@{/addPet/{id}(id=${owners.getId()})}">Add pet</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mt-3 col-12 d-md-flex justify-content-md-end">
+                <form th:action="@{/addClient}" method="get">
+                    <button class="btn btn-primary" type="submit">Add new client</button>
+                </form>
+            </div>
+        </div>
         </div>
     </div>
-</div>
     <div th:insert="footer :: foot"></div>
-
 </body>
 </html>

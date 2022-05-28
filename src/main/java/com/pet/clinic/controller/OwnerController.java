@@ -33,14 +33,9 @@ public class OwnerController {
     @GetMapping("/clients")
     public String getOwner(Model model) {
         List<Owner> ownerList = ownerService.getAllOwners();
-        List<Pet> petList = petService.getAllPets(); // In pets table, I have pet_name associated with owner_id. I want to retrieve every pet and make it a string.
-        //getPetByOwnerId(Long id)
-        //String petNamesString = ownerService.nameAllPets();
+        List<Pet> petList = petService.getAllPets();
         model.addAttribute("owner", ownerList);
         model.addAttribute("petList", petList);
-        //pass concatenated pet's name
-
-        //model.addAttribute("pet")
         return "owner/owner-list";
     }
 
@@ -111,31 +106,4 @@ public class OwnerController {
         ownerService.saveOrUpdateOwner(owner, owner.getPet());
         return "redirect:/clients";
     }
-/*
-    @PostMapping("/saveClient")
-    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @Valid @ModelAttribute("pet")Pet pet, BindingResult petResult, Model model) throws RecordNotFoundException {
-        List<PetType> petNames = petTypeService.getAllPetType();
-        if (result.hasErrors() || petResult.hasErrors()) {
-            if(owner.getId() != null) { //when it comes from update
-                List<Pet> petList = petService.getAllPetByOwner(owner.getId());
-                model.addAttribute("petList", petList);
-                model.addAttribute("petNames", petNames);
-                return "owner/update-owner";
-            } else {
-                model.addAttribute("petNames", petNames);
-                return "owner/add-owner";
-            }
-        }
-        if(owner.getId() != null) {
-            List<Pet> ownerPet = owner.getPet();
-            ownerService.saveOrUpdateOwner(owner, ownerPet);
-            return "redirect:/clients";
-        }
-        List<Pet> ownerPet = new ArrayList<>();
-        ownerPet.add(pet);
-        ownerService.saveOrUpdateOwner(owner, ownerPet);
-        return "redirect:/clients";
-    }*/
-
-
 }
