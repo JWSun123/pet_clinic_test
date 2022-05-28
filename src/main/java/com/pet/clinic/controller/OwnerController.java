@@ -4,7 +4,6 @@ import com.pet.clinic.entity.Owner;
 import com.pet.clinic.entity.Pet;
 import com.pet.clinic.entity.PetType;
 import com.pet.clinic.exception.RecordNotFoundException;
-import com.pet.clinic.repository.PetTypeRepository;
 import com.pet.clinic.service.OwnerService;
 import com.pet.clinic.service.PetService;
 import com.pet.clinic.service.PetTypeService;
