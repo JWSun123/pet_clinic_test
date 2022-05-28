@@ -105,19 +105,8 @@ public class OwnerService {
         throw new RecordNotFoundException("There no client with this Id.");
     }
 
-    public Owner getOwnerByTel(String tel) throws RecordNotFoundException {
-        //should be able to find with partial number
-        List<Owner> allOwners = ownerRepository.findAll();
-        //If we want to get results with similar tel
-        // List<Owner> foundOwners = new ArrayList<>();
-        for(Owner owner : allOwners) {
-            if(owner.getTel().equals(tel)) {
-                //foundOwners.add(owner);
-                //return foundOwners;
-                return owner;
-            }
-        }
-        throw new RecordNotFoundException("There is no client with this phone number.");
+    public List<Owner> getOwnerByKeyword(String keyword) throws RecordNotFoundException {
+        return ownerRepository.findByKeyword(keyword);
     }
 
     //get a list of all pets of owner by owner's id.

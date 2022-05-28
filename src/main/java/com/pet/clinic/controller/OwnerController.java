@@ -79,13 +79,13 @@ public class OwnerController {
         return "redirect:/clients";
     }
     //search owner by name/phone
-    @PostMapping("/searchOwner")
-    public String searchOwner(@RequestParam(value = "query")String query, Model model) throws RecordNotFoundException {
-        List<Owner> ownerList = new ArrayList<>();
-        if(query.startsWith("(")) {
-            ownerList.add(ownerService.getOwnerByTel(query));
+    @GetMapping("/searchOwnerByKeyword")
+    public String searchOwner(@RequestParam(value = "keyword")String keyword, Model model) throws RecordNotFoundException {
+        List<Owner> ownerList;
+        if(!keyword.isEmpty()) {
+            ownerList = ownerService.getOwnerByKeyword(keyword);
         } else {
-            ownerList.add(ownerService.getOwnerById(Long.valueOf(query)));
+            ownerList = ownerService.getAllOwners();
         }
         model.addAttribute("owner", ownerList);
         return "owner/owner-list";

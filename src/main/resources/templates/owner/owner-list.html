@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <div th:replace="header :: myheader"></div>
-    <script src="src/main/resources/static/js/index.js"></script>
 </head>
 <body>
 <div>
@@ -15,8 +14,8 @@
         <!--        content starts here!-->
         <div class="pt-3 container-fluid">
     <h1>Owner table</h1>
-    <form th:action="@{/searchOwner}" method="post" class="form-group">
-        <input type="text" th:name ="query" placeholder="Search by id or telephone number..">
+    <form th:action="@{/searchOwnerByKeyword}" method="get" class="form-group">
+        <input type="text" name ="keyword" placeholder="Search for an owner by ">
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
     <div>
@@ -38,9 +37,9 @@
                 <td th:text="${owners.getAddress()}"></td>
                 <td th:text="${owners.getTel()}"></td>
                 <td th:text="${owners.getEmail()}"></td>
-                <td><a th:each="pet : ${owners.pet}" th:href="@{/showPetInfoForUpdate/{petId}(petId=*{pet.getId()})}" th:text="*{pet.getPetName()}"></a></td>
+                <td><a class="mx-1" th:each="pet : ${owners.pet}" th:href="@{/showPetInfoForUpdate/{petId}(petId=*{pet.getId()})}" th:text="*{pet.getPetName()}"></a></td>
 
-                <td><a th:href="@{/deleteOwner/{id}(id=${owners.getId()})}">delete</a> | <a th:href="@{/updateOwner/{id}(id=${owners.getId()})}">modify</a></td>
+                <td><a th:href="@{/deleteOwner/{id}(id=${owners.getId()})}">delete</a> | <a th:href="@{/updateOwner/{id}(id=${owners.getId()})}">modify</a> | <a th:href="@{/addPet/{id}(id=${owners.getId()})}">Add pet</a></td>
             </tr>
         </table>
     </div>
