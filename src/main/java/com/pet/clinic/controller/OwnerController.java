@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -25,7 +24,7 @@ public class OwnerController {
     private final PetService petService;
     private final PetTypeService petTypeService;
 
-    public OwnerController(OwnerService ownerService, PetService petService, PetTypeRepository petTypeRepository, PetTypeService petTypeService) {
+    public OwnerController(OwnerService ownerService, PetService petService, PetTypeService petTypeService) {
         this.ownerService = ownerService;
         this.petService = petService;
         this.petTypeService = petTypeService;
@@ -35,14 +34,15 @@ public class OwnerController {
     @GetMapping("/clients")
     public String getOwner(Model model) {
         List<Owner> ownerList = ownerService.getAllOwners();
-        List<Pet> petList; // In pets table, I have pet_name associated with owner_id. I want to retrieve every pet and make it a string.
+        List<Pet> petList = petService.getAllPets(); // In pets table, I have pet_name associated with owner_id. I want to retrieve every pet and make it a string.
         //getPetByOwnerId(Long id)
         //String petNamesString = ownerService.nameAllPets();
         model.addAttribute("owner", ownerList);
+        model.addAttribute("petList", petList);
         //pass concatenated pet's name
 
         //model.addAttribute("pet")
-        return "owner-list";
+        return "owner/owner-list";
     }
 
     //add new owner
@@ -54,7 +54,7 @@ public class OwnerController {
         model.addAttribute("owner", owner);
         model.addAttribute("pet", pet);
         model.addAttribute("petNames", petNames);
-        return "add-owner";
+        return "owner/add-owner";
     }
 
 
@@ -62,8 +62,12 @@ public class OwnerController {
     @GetMapping("/updateOwner/{id}")
     public String updateOwnerById(@PathVariable(value = "id") Long id, Model model) throws RecordNotFoundException {
         Owner owner = ownerService.getOwnerById(id);
+        List<Pet> petList = petService.getAllPetByOwner(id);
+        List<PetType> petNames = petTypeService.getAllPetType();
         model.addAttribute("owner", owner);
-        return "update-owner";
+        model.addAttribute("petList", petList);
+        model.addAttribute("petNames", petNames);
+        return "owner/update-owner";
     }
     //delete
     @GetMapping("/deleteOwner/{id}")
@@ -74,7 +78,6 @@ public class OwnerController {
     //search owner by name/phone
     @PostMapping("/searchOwner")
     public String searchOwner(@RequestParam(value = "query")String query, Model model) throws RecordNotFoundException {
-        //How to differentiate id vs tel? Maybe add pattern to tel to have this format: (123)123-1234?
         List<Owner> ownerList = new ArrayList<>();
         if(query.startsWith("(")) {
             ownerList.add(ownerService.getOwnerByTel(query));
@@ -82,17 +85,17 @@ public class OwnerController {
             ownerList.add(ownerService.getOwnerById(Long.valueOf(query)));
         }
         model.addAttribute("owner", ownerList);
-        return "owner-list";
+        return "owner/owner-list";
     }
-    //Need to figure out to get pets
 
-    //save existing or new owner with the pet
     @PostMapping("/saveClient")
-    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, @ModelAttribute("pet")Pet pet, BindingResult result, Model model) throws RecordNotFoundException {
-        if (result.hasErrors()) {
-            return "add-owner";
+    public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @Valid @ModelAttribute("pet")Pet pet, BindingResult petResult) throws RecordNotFoundException {
+        if (result.hasErrors() || petResult.hasErrors()) {
+            return "owner/add-owner";
         }
-        ownerService.saveOrUpdateOwner(owner, pet);
+        List<Pet> ownerPet = owner.getPet();
+        ownerService.saveOrUpdateOwner(owner, owner.getPet());
+
         return "redirect:/clients";
     }
 }

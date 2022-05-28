@@ -35,6 +35,7 @@ public class Person extends IdBaseEntity {
 
     @Column(name = "email")
     @Email(message = ErrorMessage.EMAIL_INVALID_ERROR_MESSAGE)
+    @NotEmpty(message = ErrorMessage.EMAIL_EMPTY_ERROR_MESSAGE)
     private String email;
 
 }

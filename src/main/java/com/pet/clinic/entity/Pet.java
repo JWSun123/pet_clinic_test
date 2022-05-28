@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.*;
 import java.io.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "pets")
@@ -41,4 +42,23 @@ public class Pet extends IdBaseEntity{
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        Pet otherPet = (Pet) o;
+        return otherPet.getId().equals(this.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), petName, dob, petType, owner);
+    }
 }

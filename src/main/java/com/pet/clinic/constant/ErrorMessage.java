@@ -12,6 +12,7 @@ public class ErrorMessage {
     public static final String LASTNAME_SIZE_LIMIT_ERROR_MESSAGE = "Last name should be less than 30 characters";
     public static final String LASTNAME_IS_REQUIRED_ERROR_MESSAGE = "Last name is required.";
     public static final String EMAIL_INVALID_ERROR_MESSAGE = "Please enter a valid email address.";
+    public static final String EMAIL_EMPTY_ERROR_MESSAGE = "Please enter an email address.";
     //Owner:
     public static final String ADDRESS_IS_REQUIRED_ERROR_MESSAGE = "Address is required.";
     public static final String ADDRESS_SIZE_LIMITE_ERROR_MESSAGE = "Address should be less than 200 characters.";

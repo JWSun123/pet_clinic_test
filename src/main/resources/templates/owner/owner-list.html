@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <div th:replace="header :: myheader"></div>
+    <script src="src/main/resources/static/js/index.js"></script>
 </head>
 <body>
 <div>
@@ -27,18 +28,19 @@
                 <th>Address</th>
                 <th>Tel</th>
                 <th>Email</th>
-                <!--<th>Pets</th>-->
+                <th>Pets</th>
                 <th>Action</th>
             </tr>
-            <tr th:each="owner: ${owner}">
-                <td th:text="${owner.getId()}"></td>
-                <td th:text="${owner.getFirstName()}"></td>
-                <td th:text="${owner.getLastName()}"></td>
-                <td th:text="${owner.getAddress()}"></td>
-                <td th:text="${owner.getTel()}"></td>
-                <td th:text="${owner.getEmail()}"></td>
-                <!--<td th:text="${owner.g}"></td>-->
-                <td><a th:href="@{/deleteOwner/{id}(id=${owner.getId()})}">delete</a> | <a th:href="@{/updateOwner/{id}(id=${owner.getId()})}">modify</a></td>
+            <tr th:each="owners, itemStat: ${owner}">
+                <td th:text="${owners.getId()}"></td>
+                <td th:text="${owners.getFirstName()}"></td>
+                <td th:text="${owners.getLastName()}"></td>
+                <td th:text="${owners.getAddress()}"></td>
+                <td th:text="${owners.getTel()}"></td>
+                <td th:text="${owners.getEmail()}"></td>
+                <td><a th:each="pet : ${owners.pet}" th:href="@{/showPetInfoForUpdate/{petId}(petId=*{pet.getId()})}" th:text="*{pet.getPetName()}"></a></td>
+
+                <td><a th:href="@{/deleteOwner/{id}(id=${owners.getId()})}">delete</a> | <a th:href="@{/updateOwner/{id}(id=${owners.getId()})}">modify</a></td>
             </tr>
         </table>
     </div>

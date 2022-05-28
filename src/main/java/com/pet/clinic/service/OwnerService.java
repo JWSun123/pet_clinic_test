@@ -9,9 +9,7 @@ import com.pet.clinic.repository.PetRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OwnerService {
@@ -30,22 +28,21 @@ public class OwnerService {
     }
 
     //save or update owner
-    public void saveOrUpdateOwner (Owner newOwner, Pet pet) throws RecordNotFoundException {
+    public void saveOrUpdateOwner (Owner newOwner, List<Pet> petList) throws RecordNotFoundException {
         if (newOwner.getId() == null) {
             newOwner.setFirstName(newOwner.getFirstName());
             newOwner.setLastName(newOwner.getLastName());
             newOwner.setTel(newOwner.getTel());
             newOwner.setAddress(newOwner.getAddress());
             newOwner.setEmail(newOwner.getEmail());
-
-            List<Pet> pets=new ArrayList<>();
-            pets.add(pet);
-            newOwner.setPet(pets);
+            newOwner.setPet(petList);
 
             ownerRepository.save(newOwner);
 
-            pet.setOwner(newOwner);
-            petRepository.save(pet);
+            for (Pet pet: petList) {
+                pet.setOwner(newOwner);
+                petRepository.save(pet);
+            }
         } else {
             Owner ownerFromDb = getOwnerById(newOwner.getId());
             ownerFromDb.setFirstName(newOwner.getFirstName());
@@ -54,17 +51,52 @@ public class OwnerService {
             ownerFromDb.setTel(newOwner.getTel());
             ownerFromDb.setAddress(newOwner.getAddress());
 
-            List<Pet> pets=ownerFromDb.getPet();
-            pets.add(pet);
-            ownerFromDb.setPet(pets);
+            //Get existing pet list
+            List<Pet> previousPets=ownerFromDb.getPet();
+
+            //Add or update pet based on pet id (I've overridden the equals())
+            List<Pet> toUpdate = new ArrayList<>();
+            toUpdate.addAll(petList);
+            toUpdate.retainAll(previousPets);
+
+            //Pets that don't have the same id as previousPets will be pets to add
+            List<Pet> toAdd = new ArrayList<>();
+            toAdd.addAll(petList);
+            toAdd.removeAll(toUpdate);
+
+            for (Pet pet : toUpdate) {
+                for (Pet other: petList) {
+                    if (other.getId() == pet.getId()) {
+                        pet.setId(pet.getId());
+                        pet.setPetName(other.getPetName());
+                        pet.setDob(other.getDob());
+                        pet.setPetType(other.getPetType());
+                        pet.setOwner(ownerFromDb);
+                    }
+                }
+            }
+
+            //List to hold the all the modified and new pets
+            List<Pet> updatedPetList = new ArrayList<>(toUpdate);
+
+            for (Pet pet: toAdd) {
+                pet.setOwner(ownerFromDb);
+                updatedPetList.add(pet);
+            }
+
+            //TODO: To check..Seems redundant but if I remove it to keep updatedPetList only, it doesn't update the pet
+            List<Pet> allPets = new ArrayList<>(updatedPetList);
+
+            ownerFromDb.setPet(allPets);
             ownerRepository.save(ownerFromDb);
 
-            pet.setOwner(newOwner);
-            petRepository.save(pet);
+            //pet.setOwner(newOwner);
+
+            //Saves the collection or else it gives validation errors
+            petRepository.saveAll(updatedPetList);
         }
     }
 
-    //TODO:Change it to the query of Jingwen in repo
     public Owner getOwnerById(Long id) throws RecordNotFoundException{
         Optional<Owner> owner = ownerRepository.findById(id);
         if (owner.isPresent()) {
@@ -73,7 +105,6 @@ public class OwnerService {
         throw new RecordNotFoundException("There no client with this Id.");
     }
 
-    //search by tel TODO:Change it to the query of Jingwen in repo
     public Owner getOwnerByTel(String tel) throws RecordNotFoundException {
         //should be able to find with partial number
         List<Owner> allOwners = ownerRepository.findAll();
@@ -127,5 +158,9 @@ public class OwnerService {
     public List<Owner> findOwnerByKeyword(String keyword){
 
         return ownerRepository.findByKeyword(keyword);
+    }
+
+    public void saveAllPets(List<Pet> petList) {
+            petRepository.saveAll(petList);
     }
 }
