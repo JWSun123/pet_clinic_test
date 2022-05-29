@@ -1,9 +1,11 @@
 package com.pet.clinic.controller;
 
+import com.pet.clinic.entity.Appointment;
 import com.pet.clinic.entity.Pet;
 import com.pet.clinic.entity.Vet;
 import com.pet.clinic.entity.Visit;
 import com.pet.clinic.exception.RecordNotFoundException;
+import com.pet.clinic.service.AppointmentService;
 import com.pet.clinic.service.PetService;
 import com.pet.clinic.service.VetService;
 import com.pet.clinic.service.VisitService;
@@ -21,11 +23,13 @@ public class VisitController {
     private final VisitService visitService;
     private final PetService petService;
     private final VetService vetService;
+    private final AppointmentService appointmentService;
 
-    public VisitController(VisitService visitService, PetService petService, VetService vetService) {
+    public VisitController(VisitService visitService, PetService petService, VetService vetService, AppointmentService appointmentService) {
         this.visitService = visitService;
         this.petService = petService;
         this.vetService = vetService;
+        this.appointmentService = appointmentService;
     }
 
     @GetMapping("/visit")
@@ -49,7 +53,7 @@ public class VisitController {
         return "visit/visit-pet";
     }
 
-    @GetMapping("/addVisitDetail/{petId}")
+   /* @GetMapping("/addVisitDetail/{petId}")
     public String addVisit(@PathVariable(value = "petId")Long petId, Model model) throws RecordNotFoundException {
         Pet pet = petService.getPetById(petId);
         Visit visit = new Visit();
@@ -60,14 +64,28 @@ public class VisitController {
         model.addAttribute("visit", visit);
         model.addAttribute("vets", vets);
         return "visit/add-visit";
-    }
+    }*/
 
     @PostMapping("/saveVisit")
-    public String saveVisit(@Valid @ModelAttribute("visit") Visit newVisit, BindingResult result){
+    public String saveVisit(@Valid @ModelAttribute("visit") Visit newVisit, BindingResult result, @ModelAttribute("apt") Appointment apt, Model model) throws RecordNotFoundException {
         if(result.hasErrors()){
+            List<Vet> vets = vetService.getAllVets();
+            model.addAttribute("vets", vets);
+            if (apt.getId() != null) {
+                apt = appointmentService.getAppointmentById(apt.getId());
+                model.addAttribute("apt", apt);
+                return "visit/apt-to-visit";
+            }
             return "visit/add-visit";
         }
+        if (apt.getId() != null) {
+            //newVisit.setVisitDate(newVisit.getVisitDate());
+            visitService.saveVisit(newVisit);
+            appointmentService.cancelAppointment(apt.getId());
+            return "redirect:/visit";
+        }
         visitService.saveVisit(newVisit);
+
         return "redirect:/visit";
     }
 
@@ -81,5 +99,40 @@ public class VisitController {
         }
         model.addAttribute("visits", visits);
         return "visit/visit-list";
+    }
+
+    @GetMapping("/addVisitDetail/{petId}")
+    public String addVisit(@PathVariable(value = "petId")Long petId, Model model) throws RecordNotFoundException {
+        Pet pet = petService.getPetById(petId);
+        Visit visit = new Visit();
+        visit.setPet(pet);
+
+        // get all the vets for the select box.
+        List<Vet> vets = vetService.getAllVets();
+        model.addAttribute("visit", visit);
+        model.addAttribute("vets", vets);
+        return "visit/add-visit";
+    }
+
+    @GetMapping("/appointmentToVisit/{aptId}")
+    public String aptToVisit(@PathVariable(value = "aptId")Long aptId, Model model) throws RecordNotFoundException {
+        Appointment appointment = appointmentService.getAppointmentById(aptId);
+        model.addAttribute("apt", appointment);
+
+        Visit visit = new Visit();
+        visit.setPet(appointment.getPet());
+        visit.setVisitDate(appointment.getAppointmentDate());
+        model.addAttribute("visit", visit);
+
+        List<Vet> vets = vetService.getAllVets();
+        model.addAttribute("vets", vets);
+        //On appointment page, click on add to visit - done
+        //returns to /addVisitDetail/{petId} - done
+        //Date and time is transferred to the form
+        //Description is transferred to the form. They can add more description
+        //Add the vet of choice
+        //Click add visit
+        //delete appointment by id. So I need to pass the apt id.
+        return "visit/apt-to-visit";
     }
 }

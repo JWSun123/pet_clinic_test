@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -40,5 +42,8 @@ public class Visit extends IdBaseEntity {
     @ManyToOne
     @JoinColumn(name = "vet_id")
     private Vet vet;
+
+    /*@OneToOne(mappedBy = "visit")
+    private Appointment appointment;*/
 
 }

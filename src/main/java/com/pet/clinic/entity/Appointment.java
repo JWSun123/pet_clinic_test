@@ -13,6 +13,7 @@ import org.joda.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -43,5 +44,9 @@ public class Appointment extends IdBaseEntity{
     @JoinColumn(name = "pet_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Pet pet;
+
+    /*@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "apt_id")
+    private Visit visit;*/
 
 }
