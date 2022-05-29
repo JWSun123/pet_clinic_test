@@ -51,15 +51,5 @@
         </div>
     </div>
     <div th:insert="footer :: foot"></div>
-    <script>
-        $(document).ready(function(){
-            $('.table #delete-modal').click(function (e){
-                e.preventDefault();
-                let href = $(this).attr('href');
-                $("#deleteModal #btnDeleteYes").attr('href', href);
-                $("#deleteModal").modal("show").find(".modal-content").load();
-            })
-        })
-    </script>
 </body>
 </html>
