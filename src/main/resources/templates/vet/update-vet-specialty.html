@@ -19,7 +19,7 @@
             <select th:field="*{id}">
                 <option th:each="restSpecialty: ${allRestSpecialties}" th:value="${restSpecialty.getId()}" th:text="${restSpecialty.getSpecialtyName()}"></option>
             </select>
-            <button type="submit" class="btn btn-primary">Add A Specialty to the Vet</button>
+            <button th:disabled="${allRestSpecialties.size() == 0}" type="submit" class="btn btn-primary">Add A Specialty to the Vet</button>
         </form>
         <div th:if="${allRestSpecialties.size() == 0}">
             <span class="text-danger">There is no more specialties in the Database, please add a specialty.</span>
