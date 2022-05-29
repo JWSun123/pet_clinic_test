@@ -20,7 +20,7 @@
                 <!-- Row with name-->
                 <div class="row justify-content-center">
                     <h3 class="formtitle">Client's information</h3>
-                    <div class="col-3 mt-3">
+                    <div class="col-3 pt-3">
                         <input type="hidden" th:field="*{id}"/>
                         <label th:classappend="${#fields.hasErrors('firstName')} ? text-danger : ''" for="firstName">First name:</label>
                         <input type="text" th:field="*{firstName}" id="firstName" placeholder="Please enter your first name" class="form-control"/>
@@ -70,7 +70,7 @@
                             <li th:each="err:${#fields.errors('*')}" th:text="${err}" class="text-danger"></li>
                         </ul>
                     </div>
-                    <button type="submit" class="btn btn-info col-2">Save</button>
+                    <button type="submit" class="btn btn-primary col-2">Save</button>
                 </div>
             </form>
         </div>
