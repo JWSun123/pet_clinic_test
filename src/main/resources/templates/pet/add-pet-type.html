@@ -12,17 +12,18 @@
             <!-- sidebar -->
             <div th:replace="sidebar :: mysidebar"></div>
             <!--        content starts here!-->
-            <h2>Add A New Pet Type</h2>
-            <div class="col-6">
-                <form th:action="@{savePetType}" th:object="${petType}" method="post">
-                    <div class="form-group mt-3">
-                        <label th:classappend="${#fields.hasErrors('petTypeName')} ? 'text-danger' : ''" for="pet-type">Pet type</label>
-                        <input type="text" class="form-control" th:field="*{petTypeName}" id="pet-type" placeholder="Enter the pet type">
-                        <p th:if="${#fields.hasErrors('petTypeName')}" th:errors="*{petTypeName}" class="text-danger"></p>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary mt-3">Add pet type</button>
-                </form>
+            <div class="pt-3">
+                <h2>Add A New Pet Type</h2>
+                <div class="col-6">
+                    <form th:action="@{savePetType}" th:object="${petType}" method="post">
+                        <div class="form-group mt-3">
+                            <label th:classappend="${#fields.hasErrors('petTypeName')} ? 'text-danger' : ''" for="pet-type">Pet type</label>
+                            <input type="text" class="form-control" th:field="*{petTypeName}" id="pet-type" placeholder="Enter the pet type">
+                            <p th:if="${#fields.hasErrors('petTypeName')}" th:errors="*{petTypeName}" class="text-danger"></p>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Add pet type</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
