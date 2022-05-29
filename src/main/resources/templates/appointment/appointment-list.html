@@ -39,7 +39,7 @@
                         <td th:text="${appointment.getPet().getId()}"></td>
                         <td th:text="${appointment.getPet().getPetName()}"></td>
                         <td th:text="${appointment.getDescription()}"></td>
-                        <td><a th:href="@{/cancelAppointment/{appointmentId}(appointmentId=${appointment.getId()})}">cancel</a></td>
+                        <td><a th:href="@{/cancelAppointment/{appointmentId}(appointmentId=${appointment.getId()})}">cancel</a> | <a th:href="@{/appointmentToVisit/{aptId}(aptId=${appointment.getId()})}">Add to visit</a></td>
                     </tr>
                     </tbody>
                 </table>

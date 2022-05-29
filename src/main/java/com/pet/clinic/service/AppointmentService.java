@@ -37,7 +37,7 @@ public class AppointmentService {
         }
     }
 
-    private Appointment getAppointmentById(Long id) throws RecordNotFoundException {
+    public Appointment getAppointmentById(Long id) throws RecordNotFoundException {
         Optional<Appointment> appointment = appointmentRepository.findById(id);
         if(appointment.isPresent()) return appointment.get();
         throw new RecordNotFoundException("Appointment Not Found");
