@@ -38,7 +38,7 @@
             <div>
                 <form th:action="@{/saveAppointment}" th:object="${appointment}"  method="post">
                     <div class="form-group mt-3">
-                        <label >Appointment Date</label>
+                        <label th:classappend="${#fields.hasErrors('appointmentDate')} ? 'text-danger' : ''" >Appointment Date</label>
                         <input class="form-control" type="datetime-local" th:field="*{appointmentDate}"/>
                     </div>
                     <div class="form-group mt-3">

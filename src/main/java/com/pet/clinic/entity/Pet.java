@@ -39,6 +39,7 @@ public class Pet extends IdBaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Owner owner;
 
     @Override

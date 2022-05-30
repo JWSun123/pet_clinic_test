@@ -2,6 +2,8 @@ package com.pet.clinic.entity;
 
 import com.pet.clinic.constant.ErrorMessage;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,6 +31,7 @@ public class Owner extends Person{
     @NotNull
     @Valid
     @OneToMany(mappedBy = "owner")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Pet> pet;
 }
 
