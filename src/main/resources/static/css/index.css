@@ -58,6 +58,7 @@ body {
 .carousel-caption {
     top: 3%;
     font-size: xx-large;
+    height: 200px;
 }
 #sidebar .nav a:hover{
     background: none;
