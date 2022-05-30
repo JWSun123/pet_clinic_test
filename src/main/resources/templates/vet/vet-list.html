@@ -12,14 +12,14 @@
         <!-- sidebar -->
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
-        <div class="container">
+        <div class="pt-3 container">
             <div class="row mb-4">
                 <div class="pt-3 col-5">
                     <a class="btn btn-outline-primary col-12" th:href="@{addVet}">Add A Vet</a>
                 </div>
                 <div class="mt-3 col-5 ms-auto">
                     <form th:action="@{/searchVet}" method="get">
-                        <input type="text" name="keyword"  placeholder="Find by Vet Name or Tel or Email" size="30" >
+                        <input type="text" name="keyword"  placeholder="Find by Vet Name or Tel or Email" size="40" >
                         <button type="submit" class="btn btn-outline-secondary" >Search</button>
                     </form>
                 </div>
@@ -27,7 +27,7 @@
             <div>
                 <table class="table">
                     <thead class="thead-dark">
-                    <tr class="">
+                    <tr>
                         <th>ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>

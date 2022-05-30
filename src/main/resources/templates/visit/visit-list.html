@@ -12,38 +12,41 @@
         <!-- sidebar -->
         <div th:replace="sidebar :: mysidebar"></div>
         <!--        content starts here!-->
-
-        <div class="pt-3">
-            <div class="pt-3 col-10 mb-3">
-                <a class="btn btn-outline-primary" th:href="@{/addVisit}">Add A Visit</a>
+        <div class="pt-3 container">
+            <div class="row mb-4">
+                <div class="pt-3 col-5">
+                    <a class="btn btn-outline-primary col-12" th:href="@{/addVisit}">Add A Visit</a>
+                </div>
+                <div class="mt-3 col-5 ms-auto">
+                    <form th:action="@{/getVisitByPet}" method="get">
+                        <input type="text" name="petName" placeholder="Find a visit by pet's name" size="40">
+                        <button type="submit" class="btn btn-outline-secondary" >Get Visit by Pet</button>
+                    </form>
+                </div>
             </div>
-            <div class="mt-3 col-10">
-                <form th:action="@{/getVisitByPet}" method="get">
-                    <input type="text" name="petName" class="col-8">
-                    <button type="submit" class="btn btn-outline-secondary" >Get Visit by Pet</button>
-                </form>
+            <div>
+                <h3 class="text-center">Visit List</h3>
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Pet ID</th>
+                        <th>Pet Name</th>
+                        <th>Visit Date</th>
+                        <th>Vet</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="visit:${visits}">
+                        <td th:text="${visit.getPet().getId()}"></td>
+                        <td th:text="${visit.getPet().getPetName()}"></td>
+                        <td th:text="${visit.getVisitDate()}"></td>
+                        <td th:text="${visit.getVet().getFirstName().concat(' ').concat(visit.getVet().getLastName())}"></td>
+                        <td th:text="${visit.getDescription()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <h3>Visit List</h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Pet ID</th>
-                    <th>Pet Name</th>
-                    <th>Visit Date</th>
-                    <th>Vet</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="visit:${visits}">
-                    <td th:text="${visit.getPet().getId()}"></td>
-                    <td th:text="${visit.getPet().getPetName()}"></td>
-                    <td th:text="${visit.getVisitDate()}"></td>
-                    <td th:text="${visit.getVet().getFirstName().concat(' ').concat(visit.getVet().getLastName())}"></td>
-                    <td th:text="${visit.getDescription()}"></td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 </div>

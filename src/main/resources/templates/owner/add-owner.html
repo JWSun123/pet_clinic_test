@@ -14,12 +14,12 @@
         <!--        content starts here!-->
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <h1>Client registration form</h1>
+            <h1 class="text-center">Add client</h1>
         </div>
         <form th:action="@{/saveClient}" th:object="${owner}" method="post" class="form-group">
             <!-- Row with name-->
             <div class="row justify-content-center">
-                <h3 class="formtitle row justify-content-center mt-2">Client's information</h3>
+                <h3 class="text-center mt-2">Client's information</h3>
                 <div class="col-3 pt-3">
                     <label th:classappend="${#fields.hasErrors('firstName')} ? 'text-danger' : ''" for="firstName">First name:</label>
                     <input type="text" th:field="*{firstName}" id="firstName" placeholder="First name" class="form-control"/>
@@ -44,8 +44,8 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <h3 class="formtitle row justify-content-center mt-3">Pet's information</h3>
-                <div th:each="pet, itemStat : *{pet}" class="col-6 mt-3">
+                <h3 class="text-center mt-3">Pet's information</h3>
+                <div th:each="pet, itemStat : *{pet}" class="col-6 mt-2">
                     <div>
                         <label th:classappend="${#fields.hasErrors('pet[__${itemStat.index}__].petName')} ? 'text-danger' : ''" for="petname">Name:</label>
                         <input type="text" th:field="*{pet[__${itemStat.index}__].petName}" id="petname" placeholder="Please enter the pet's name" class="form-control"/>
