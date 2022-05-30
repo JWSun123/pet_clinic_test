@@ -19,7 +19,7 @@ public class HomeController {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String viewHomePage(Model model){
         String date = LocalDate.now().toString();
         List<Appointment> appointmentList = appointmentService.getAppointmentByDate(date);
