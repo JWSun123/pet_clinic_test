@@ -146,7 +146,7 @@ public class OwnerService {
 
     public List<Owner> findOwnerByKeyword(String keyword){
 
-        return ownerRepository.findByKeyword(keyword);
+        return ownerRepository.searchByKeyword(keyword);
     }
 
     public void saveAllPets(List<Pet> petList) {
