@@ -29,7 +29,7 @@ public class OwnerController {
         this.petTypeService = petTypeService;
     }
 
-    //List of clients TODO: add pagination if there's a lot of clients.
+    //Lists the owners and their pets
     @GetMapping("/clients")
     public String getOwner(Model model) {
         List<Owner> ownerList = ownerService.getAllOwners();
@@ -39,7 +39,7 @@ public class OwnerController {
         return "owner/owner-list";
     }
 
-    //add new owner
+    //Add new owner
     @GetMapping("/addClient")
     public String newOwner(Model model) {
         Owner owner = new Owner();
@@ -49,20 +49,16 @@ public class OwnerController {
         owner.setPet(ownerPet);
         List<PetType> petNames = petTypeService.getAllPetType();
         model.addAttribute("owner", owner);
-        model.addAttribute("pet", pet);
         model.addAttribute("petNames", petNames);
         return "owner/add-owner";
     }
-
 
     //edit owner
     @GetMapping("/updateOwner/{id}")
     public String updateOwnerById(@PathVariable(value = "id") Long id, Model model) throws RecordNotFoundException {
         Owner owner = ownerService.getOwnerById(id);
-        List<Pet> petList = petService.getAllPetByOwner(id);
         List<PetType> petNames = petTypeService.getAllPetType();
         model.addAttribute("owner", owner);
-        model.addAttribute("petList", petList);
         model.addAttribute("petNames", petNames);
         return "owner/update-owner";
     }
@@ -73,7 +69,8 @@ public class OwnerController {
         ownerService.deleteOwnerById(id);
         return "redirect:/clients";
     }
-    //search owner by name/phone
+
+    //search owner by keyword
     @GetMapping("/searchOwnerByKeyword")
     public String searchOwner(@RequestParam(value = "keyword")String keyword, Model model) throws RecordNotFoundException {
         List<Owner> ownerList;
@@ -102,7 +99,6 @@ public class OwnerController {
         }
         List<Pet> ownerPet = owner.getPet();
         ownerService.saveOrUpdateOwner(owner, ownerPet);
-
         ownerService.saveOrUpdateOwner(owner, owner.getPet());
         return "redirect:/clients";
     }
