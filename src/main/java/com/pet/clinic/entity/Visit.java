@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.action.internal.OrphanRemovalAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -35,10 +38,12 @@ public class Visit extends IdBaseEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "pet_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Pet pet;
 
     @ManyToOne
     @JoinColumn(name = "vet_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Vet vet;
 
 }

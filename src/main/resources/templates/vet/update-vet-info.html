@@ -19,19 +19,19 @@
           <input  type="number" th:field="*{id}" readonly>
         </div>
         <div class="form-group mt-3">
-          <label th:classappend="${#fields.hasErrors('firstName')} ? text-danger : ''" for = "firstName">First Name</label>
+          <label th:classappend="${#fields.hasErrors('firstName')} ? 'text-danger' : ''" for = "firstName">First Name</label>
           <input type="text" class = "form-control"  th:field="*{firstName}" id="firstName">
         </div>
         <div class="form-group mt-3">
-          <label th:classappend="${#fields.hasErrors('lastName')} ? text-danger : ''" for = "lastName">Last Name</label>
+          <label th:classappend="${#fields.hasErrors('lastName')} ? 'text-danger' : ''" for = "lastName">Last Name</label>
           <input type="text" class = "form-control"  th:field="*{lastName}" id="lastName">
         </div>
         <div class="form-group mt-3">
-          <label th:classappend="${#fields.hasErrors('tel')} ? text-danger : ''" for = "tel">Telephone Number</label>
+          <label th:classappend="${#fields.hasErrors('tel')} ? 'text-danger' : ''" for = "tel">Telephone Number</label>
           <input type="text" class = "form-control"  th:field="*{tel}" id="tel">
         </div>
         <div class="form-group mt-3">
-          <label th:classappend="${#fields.hasErrors('email')} ? text-danger : ''" for = "email">Email</label>
+          <label th:classappend="${#fields.hasErrors('email')} ? 'text-danger' : ''" for = "email">Email</label>
           <input type="text" class = "form-control"  th:field="*{email}" id="email">
         </div>
         <div class="form-group mt-4">
