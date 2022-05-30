@@ -50,6 +50,7 @@ public class PetController {
     public String savePet(@Valid @ModelAttribute("pet") Pet newPet, BindingResult result, Model model) throws RecordNotFoundException {
         if (result.hasErrors()) {
             model.addAttribute("owner", newPet.getOwner());
+            model.addAttribute("petTypes", petTypeService.getAllPetType());
             return "pet/add-pet";
         }
         petService.saveOrUpdatePet(newPet, newPet.getOwner());
