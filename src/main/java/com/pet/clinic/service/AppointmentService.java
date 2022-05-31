@@ -3,12 +3,9 @@ package com.pet.clinic.service;
 import com.pet.clinic.entity.Appointment;
 import com.pet.clinic.exception.RecordNotFoundException;
 import com.pet.clinic.repository.AppointmentRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

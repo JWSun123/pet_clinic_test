@@ -29,7 +29,7 @@ public class OwnerController {
         this.petTypeService = petTypeService;
     }
 
-    //Lists the owners and their pets
+    //Lists all the owners and their pets in a table
     @GetMapping("/clients")
     public String getOwner(Model model) {
         List<Owner> ownerList = ownerService.getAllOwners();
@@ -39,7 +39,7 @@ public class OwnerController {
         return "owner/owner-list";
     }
 
-    //Add new owner
+    //Add new a owner and a pet
     @GetMapping("/addClient")
     public String newOwner(Model model) {
         Owner owner = new Owner();
@@ -83,6 +83,7 @@ public class OwnerController {
         return "owner/owner-list";
     }
 
+    //Save owner
     @PostMapping("/saveClient")
     public String saveOwner(@Valid @ModelAttribute("owner") Owner owner, BindingResult result, @ModelAttribute("pet")Pet pet, BindingResult petResult, Model model) throws RecordNotFoundException {
         List<PetType> petNames = petTypeService.getAllPetType();

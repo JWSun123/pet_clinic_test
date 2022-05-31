@@ -5,16 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.action.internal.OrphanRemovalAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
 
 @Entity
@@ -27,8 +24,6 @@ public class Visit extends IdBaseEntity {
 
     @NotEmpty(message = ErrorMessage.VISIT_DATE_IS_REQUIRED_ERROR_MESSAGE)
     @Column(name = "visit_date")
-//    @Temporal(TemporalType.DATE)
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String visitDate;
 
     @Column(name = "description")

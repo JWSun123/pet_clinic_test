@@ -23,6 +23,7 @@ public class AppointmentController {
         this.petService = petService;
     }
 
+    //Homepage for appointment, shows table of all appointments
     @GetMapping("/appointment")
     public String getAllAppointment(Model model) {
 
@@ -31,6 +32,7 @@ public class AppointmentController {
         return "appointment/appointment-list";
     }
 
+    //Search an appointment by the selected date
     @GetMapping("/appointmentByDate")
     public String getAppointmentByDate(@RequestParam("appointmentDate")String appointmentDate, Model model){
         List<Appointment> appointments = appointmentService.getAppointmentByDate(appointmentDate);
@@ -38,13 +40,15 @@ public class AppointmentController {
         return "appointment/appointment-list";
     }
 
+    //Returns a page with pet search bar
     @GetMapping("/makeAppointment")
     public String showAppointmentPage() {
         return "appointment/appointment-step1";
     }
 
+    //Search for a pet by keyword and shows them in a table
     @GetMapping("/findPetForAppointment")
-    public String findPet(Model model, @RequestParam("keyword") String keyword) throws RecordNotFoundException {
+    public String findPet(Model model, @RequestParam("keyword") String keyword) {
         List<Pet> pets;
         if (keyword != null) pets = petService.findPetByKeyword(keyword);
         else {
@@ -55,6 +59,7 @@ public class AppointmentController {
         return "appointment/appointment-pet";
     }
 
+    //Form to make an appointment
     @GetMapping("/makeAppointment/{petId}")
     public String makeAppointment(@PathVariable(value = "petId") Long petId, Model model) throws RecordNotFoundException {
         Pet pet = petService.getPetById(petId);
@@ -65,6 +70,7 @@ public class AppointmentController {
         return "appointment/make-appointment";
     }
 
+    //Save the appointment
     @PostMapping("/saveAppointment")
     public String saveAppointment(@Valid @ModelAttribute("appointment") Appointment newAppointment, BindingResult result, Model model) throws RecordNotFoundException {
         if(result.hasErrors()){
@@ -76,6 +82,7 @@ public class AppointmentController {
         return "redirect:/appointment";
     }
 
+    //Delete the appointment
     @GetMapping("/cancelAppointment/{appointmentId}")
     public String cancelAppointment(@PathVariable(value = "appointmentId") Long appointmentId){
         appointmentService.cancelAppointment(appointmentId);

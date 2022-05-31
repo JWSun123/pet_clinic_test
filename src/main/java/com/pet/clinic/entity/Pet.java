@@ -42,6 +42,7 @@ public class Pet extends IdBaseEntity{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Owner owner;
 
+    //Custom equals method to check if the pet is the same based on their id
     @Override
     public boolean equals(Object o) {
         if (o == null) {

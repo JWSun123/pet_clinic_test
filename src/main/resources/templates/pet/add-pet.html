@@ -4,72 +4,71 @@
     <div th:replace="header :: myheader"></div>
 </head>
 <body>
-<div>
-    <nav th:replace="navbar :: mynavbar"></nav>
-</div>
-<div id="viewport">
-    <div id="content">
-        <!-- sidebar -->
-        <div th:replace="sidebar :: mysidebar"></div>
-        <!--        content starts here!-->
-        <div class="container">
-            <div>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Owner ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Tel</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:object="${owner}">
-                        <td th:text="${owner.getId()}"></td>
-                        <td th:text="${owner.getFirstName()}"></td>
-                        <td th:text="${owner.getLastName()}"></td>
-                        <td th:text="${owner.getTel()}"></td>
-                        <td th:text="${owner.email}"></td>
-                        <td th:text="${owner.address}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h2 class="pt-3">Add A New Pet</h2>
-            <div>
-                <form th:action="@{/savePet}" th:object="${pet}" method="post">
-                    <div>
-                        <input type="hidden" th:field="*{owner}"/>
-                        <input type="hidden" th:field="${pet.id}"/>
-                    </div>
-                    <div class="form-group mt-3 col-6">
-                        <label th:classappend="${#fields.hasErrors('petName')} ? 'text-danger' : ''" for = "petName">Pet Name</label>
-                        <input type="text" class = "form-control"  th:field="*{petName}" id="petName" placeholder="Enter pet's name">
-                        <p th:if="${#fields.hasErrors('petName')}" th:errors="*{petName}" class="text-danger"></p>
-                    </div>
-                    <div class="form-group mt-3 row col-6">
-                        <div class="col-md-6">
-                            <label th:classappend="${#fields.hasErrors('petName')} ? 'text-danger' : ''" for="birthdate">Date of birth</label>
-                            <input type="date" class = "form-control" th:field="*{dob}" id="birthdate" placeholder="DD/MM/YYYY"/>
-                            <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="text-danger"></p>
+    <div>
+        <nav th:replace="navbar :: mynavbar"></nav>
+    </div>
+    <div id="viewport">
+        <div id="content">
+            <!-- sidebar -->
+            <div th:replace="sidebar :: mysidebar"></div>
+            <!--        content starts here!-->
+            <div class="container">
+                <div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Owner ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Tel</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:object="${owner}">
+                            <td th:text="${owner.getId()}"></td>
+                            <td th:text="${owner.getFirstName()}"></td>
+                            <td th:text="${owner.getLastName()}"></td>
+                            <td th:text="${owner.getTel()}"></td>
+                            <td th:text="${owner.email}"></td>
+                            <td th:text="${owner.address}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h2 class="pt-3">Add A New Pet</h2>
+                <div>
+                    <form th:action="@{/savePet}" th:object="${pet}" method="post">
+                        <div>
+                            <input type="hidden" th:field="*{owner}"/>
+                            <input type="hidden" th:field="${pet.id}"/>
                         </div>
-                    </div>
-                    <div class="form-group mt-3 col-6">
-                        <label class="form-label">Pet type</label>
-                        <select th:field="*{petType}" class="form-select">
-                            <option th:each="petType : ${petTypes}"
-                            th:value="${petType.getId()}" th:text="${petType.getPetTypeName()}"></option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Add Pet</button>
-                </form>
+                        <div class="form-group mt-3 col-6">
+                            <label th:classappend="${#fields.hasErrors('petName')} ? 'text-danger' : ''" for = "petName">Pet Name</label>
+                            <input type="text" class = "form-control"  th:field="*{petName}" id="petName" placeholder="Enter pet's name">
+                            <p th:if="${#fields.hasErrors('petName')}" th:errors="*{petName}" class="text-danger"></p>
+                        </div>
+                        <div class="form-group mt-3 row col-6">
+                            <div class="col-md-6">
+                                <label th:classappend="${#fields.hasErrors('petName')} ? 'text-danger' : ''" for="birthdate">Date of birth</label>
+                                <input type="date" class = "form-control" th:field="*{dob}" id="birthdate" placeholder="DD/MM/YYYY"/>
+                                <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3 col-6">
+                            <label class="form-label">Pet type</label>
+                            <select th:field="*{petType}" class="form-select">
+                                <option th:each="petType : ${petTypes}"
+                                th:value="${petType.getId()}" th:text="${petType.getPetTypeName()}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Add Pet</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div th:insert="footer :: foot"></div>
-
+    <div th:insert="footer :: foot"></div>
 </body>
 </html>

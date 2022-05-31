@@ -4,39 +4,37 @@
     <div th:replace="header :: myheader"></div>
 </head>
 <body>
-<div>
-    <nav th:replace="navbar :: mynavbar"></nav>
-</div>
-<div id="viewport">
-    <div id="content">
-        <!-- sidebar -->
-        <div th:replace="sidebar :: mysidebar"></div>
-        <!--        content starts here!-->
-        <div class="container">
-    <div class="pt-3">
-        <a class="btn btn-primary" th:href="@{addSpecialty}">Add A Specialty</a>
-    </div>
     <div>
-        <table class="table">
-            <tr>
-                <th>ID</th>
-                <th>Specialty Name</th>
-                <th>Action</th>
-
-            </tr>
-            <tr th:each="specialty: ${specialties}">
-                <td th:text="${specialty.getId()}"></td>
-                <td th:text="${specialty.getSpecialtyName()}"></td>
-                <td><a th:href="@{deleteSpecialty/{specialtyId}(specialtyId=${specialty.getId()})}">delete</a> |
-                    <a th:href="@{showSpecialtyForUpdate/{specialtyId}(specialtyId=${specialty.getId()})}">modify</a> |
-                    <a th:href="@{/specialty/getVetBySpecialty/{specialtyId}(specialtyId=${specialty.getId()})}">view all vets</a></td>
-            </tr>
-        </table>
+        <nav th:replace="navbar :: mynavbar"></nav>
     </div>
+    <div id="viewport">
+        <div id="content">
+            <!-- sidebar -->
+            <div th:replace="sidebar :: mysidebar"></div>
+            <!--        content starts here!-->
+            <div class="container">
+        <div class="pt-3">
+            <a class="btn btn-primary" th:href="@{addSpecialty}">Add A Specialty</a>
+        </div>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Specialty Name</th>
+                    <th>Action</th>
+                </tr>
+                <tr th:each="specialty: ${specialties}">
+                    <td th:text="${specialty.getId()}"></td>
+                    <td th:text="${specialty.getSpecialtyName()}"></td>
+                    <td><a th:href="@{deleteSpecialty/{specialtyId}(specialtyId=${specialty.getId()})}">delete</a> |
+                        <a th:href="@{showSpecialtyForUpdate/{specialtyId}(specialtyId=${specialty.getId()})}">modify</a> |
+                        <a th:href="@{/specialty/getVetBySpecialty/{specialtyId}(specialtyId=${specialty.getId()})}">view all vets</a></td>
+                </tr>
+            </table>
+        </div>
+            </div>
         </div>
     </div>
-</div>
-<div th:insert="footer :: foot"></div>
-
+    <div th:insert="footer :: foot"></div>
 </body>
 </html>

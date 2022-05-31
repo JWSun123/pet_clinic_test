@@ -69,16 +69,6 @@ public class VetService {
         Vet vet = getVetById(vetId);
 
         // add specialty to vet.
-//        Set<Specialty> vetSpecialties = vet.getSpecialties();
-//        vetSpecialties.add(specialty);
-//        vet.setSpecialties(vetSpecialties);
-
-        // add vet to specialty.
-//        Set<Vet> vets = specialty.getVets();
-//        vets.add(vet);
-//        specialty.setVets(vets);
-
-        // add specialty to vet.
         Specialty specialty = specialtyRepository.findById(selectpecialty.getId()).get();
         vet.getSpecialties().add(specialty);
         vetRepository.save(vet);

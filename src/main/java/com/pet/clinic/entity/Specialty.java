@@ -3,7 +3,6 @@ package com.pet.clinic.entity;
 import com.pet.clinic.constant.ErrorMessage;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

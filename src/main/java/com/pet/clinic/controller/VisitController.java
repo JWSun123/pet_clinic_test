@@ -32,6 +32,7 @@ public class VisitController {
         this.appointmentService = appointmentService;
     }
 
+    //Show the log of visits in a table
     @GetMapping("/visit")
     public String getAllVisit(Model model){
         List<Visit> visits = visitService.getAllVisit();
@@ -39,11 +40,13 @@ public class VisitController {
         return "visit/visit-list";
     }
 
+    //Returns a page where you have to search a pet to be added to the visit log
     @GetMapping("/addVisit")
     public String showStep1(){
         return "visit/visit-step1";
     }
 
+    //Based on the keyword search, it will return all the matching pets in a table
     @GetMapping("/findPetForAddVisit")
     public String findPetForAddVisit(@RequestParam(value = "keyword")String keyword, Model model) {
         List<Pet> pets;
@@ -53,6 +56,7 @@ public class VisitController {
         return "visit/visit-pet";
     }
 
+    //Save visit
     @PostMapping("/saveVisit")
     public String saveVisit(@Valid @ModelAttribute("visit") Visit newVisit, BindingResult result, @ModelAttribute("apt") Appointment apt, Model model) throws RecordNotFoundException {
         if(result.hasErrors()){
@@ -76,6 +80,7 @@ public class VisitController {
         return "redirect:/visit";
     }
 
+    //Search a specific visit by pet's name
     @GetMapping("/getVisitByPet")
     public String getVisitByPetName(@RequestParam("petName") String petName, Model model){
         List<Visit> visits;
@@ -88,6 +93,7 @@ public class VisitController {
         return "visit/visit-list";
     }
 
+    //Add a visit to a specific pet, using the pet's id
     @GetMapping("/addVisitDetail/{petId}")
     public String addVisit(@PathVariable(value = "petId")Long petId, Model model) throws RecordNotFoundException {
         Pet pet = petService.getPetById(petId);
@@ -101,6 +107,7 @@ public class VisitController {
         return "visit/add-visit";
     }
 
+    //Transform a fulfilled appointment to a visit
     @GetMapping("/appointmentToVisit/{aptId}")
     public String aptToVisit(@PathVariable(value = "aptId")Long aptId, Model model) throws RecordNotFoundException {
         Appointment appointment = appointmentService.getAppointmentById(aptId);

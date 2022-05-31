@@ -22,13 +22,14 @@ public class OwnerService {
         this.petRepository = petRepository;
     }
 
-    //read all owners for table
+    //Fetch all owners and sort them by their id
     public List<Owner> getAllOwners() {
         return ownerRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     //save or update owner
     public void saveOrUpdateOwner (Owner newOwner, List<Pet> petList) throws RecordNotFoundException {
+        //If the owner doesn't exist, save the new owner and new pet
         if (newOwner.getId() == null) {
             newOwner.setFirstName(newOwner.getFirstName());
             newOwner.setLastName(newOwner.getLastName());
@@ -44,6 +45,7 @@ public class OwnerService {
                 petRepository.save(pet);
             }
         } else {
+            //The owner already exists, update their information
             Owner ownerFromDb = getOwnerById(newOwner.getId());
             ownerFromDb.setFirstName(newOwner.getFirstName());
             ownerFromDb.setLastName(newOwner.getLastName());
@@ -54,16 +56,17 @@ public class OwnerService {
             //Get existing pet list
             List<Pet> previousPets=ownerFromDb.getPet();
 
-            //Add or update pet based on pet id (I've overridden the equals())
+            //Add existing pets to toUpdate list
             List<Pet> toUpdate = new ArrayList<>();
             toUpdate.addAll(petList);
             toUpdate.retainAll(previousPets);
 
-            //Pets that don't have the same id as previousPets will be pets to add
+            //New pets will be added to toAdd list
             List<Pet> toAdd = new ArrayList<>();
             toAdd.addAll(petList);
             toAdd.removeAll(toUpdate);
 
+            //Update the toUpdate pets' information
             for (Pet pet : toUpdate) {
                 for (Pet other: petList) {
                     if (other.getId() == pet.getId()) {
@@ -84,19 +87,17 @@ public class OwnerService {
                 updatedPetList.add(pet);
             }
 
-            //TODO: To check..Seems redundant but if I remove it to keep updatedPetList only, it doesn't update the pet
             List<Pet> allPets = new ArrayList<>(updatedPetList);
 
             ownerFromDb.setPet(allPets);
             ownerRepository.save(ownerFromDb);
-
-            //pet.setOwner(newOwner);
 
             //Saves the collection or else it gives validation errors
             petRepository.saveAll(updatedPetList);
         }
     }
 
+    //Fetch owner by their id
     public Owner getOwnerById(Long id) throws RecordNotFoundException{
         Optional<Owner> owner = ownerRepository.findById(id);
         if (owner.isPresent()) {
@@ -105,51 +106,19 @@ public class OwnerService {
         throw new RecordNotFoundException("There no client with this Id.");
     }
 
-    public List<Owner> getOwnerByKeyword(String keyword) throws RecordNotFoundException {
+    //fetch owner or pet by a keyword
+    public List<Owner> getOwnerByKeyword(String keyword) {
         return ownerRepository.findByKeyword(keyword);
     }
-
-    //get a list of all pets of owner by owner's id.
-   /* public List<Pet> getPetByOwnerId(Long id) throws RecordNotFoundException {
-        List<Pet> allPets = petRepository.findAll();
-        List<Pet> ownerPets = new ArrayList<>();
-        Owner owner = getOwnerById(id);
-        for (Pet pet : allPets) {
-            if (pet.getOwner().equals(owner)) {
-                ownerPets.add(pet);
-            }
-        }
-        return ownerPets;
-    }*/
 
     //delete the owner by id
     public void deleteOwnerById(Long id) {
         ownerRepository.deleteById(id);
     }
 
-    //String of pets for all owners
-    /*public String nameAllPets() throws RecordNotFoundException {
-        List<Owner> owners = ownerRepository.findAll();
-        ArrayList<String> nameList = new ArrayList<>();
-        for(Owner owner : owners) {
-            nameList.add(owner);
-        }
-        String stringOfNames = String.join(",", nameList);
-        return stringOfNames;
-    }*/
-
-//    //Save pet with owner
-//    public void savePetByOwnerId(List<Pet> pet, Owner owner) throws RecordNotFoundException {
-//        owner.setPet(pet);
-//        saveOrUpdateOwner(owner);
-//    }
-
+    //fetch owner by keyword
     public List<Owner> findOwnerByKeyword(String keyword){
 
         return ownerRepository.searchByKeyword(keyword);
-    }
-
-    public void saveAllPets(List<Pet> petList) {
-            petRepository.saveAll(petList);
     }
 }

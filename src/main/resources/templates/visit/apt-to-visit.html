@@ -4,59 +4,59 @@
   <div th:replace="header :: myheader"></div>
 </head>
 <body>
-<div>
-  <nav th:replace="navbar :: mynavbar"></nav>
-</div>
-<div id="viewport">
-  <div id="content">
-    <!-- sidebar -->
-    <div th:replace="sidebar :: mysidebar"></div>
-    <!--        content starts here!-->
-    <div class="pt-3">
-      <div>
-        <form th:action="@{/saveVisit}" th:object="${apt}"  method="post">
-          <div th:object="${visit}">
-            <div class="form-group mt-3">
-              <label >Visit Date</label>
-              <input type="hidden" th:field="${apt.id}"/>
-              <input class="form-control" type="text" th:placeholder="${apt.getAppointmentDate()}" th:field="*{visitDate}" th:value="${visit.getVisitDate()}" readonly/>
+  <div>
+    <nav th:replace="navbar :: mynavbar"></nav>
+  </div>
+  <div id="viewport">
+    <div id="content">
+      <!-- sidebar -->
+      <div th:replace="sidebar :: mysidebar"></div>
+      <!--        content starts here!-->
+      <div class="pt-3">
+        <div>
+          <form th:action="@{/saveVisit}" th:object="${apt}"  method="post">
+            <div th:object="${visit}">
+              <div class="form-group mt-3">
+                <label >Visit Date</label>
+                <input type="hidden" th:field="${apt.id}"/>
+                <input class="form-control" type="text" th:placeholder="${apt.getAppointmentDate()}" th:field="*{visitDate}" th:value="${visit.getVisitDate()}" readonly/>
+              </div>
+              <div class="form-group mt-3">
+                <label>Appointment Description</label>
+                <textarea class = "form-control"  th:value="${apt.getDescription()}" th:text="${apt.getDescription()}" readonly></textarea>
+              </div>
+              <div class="form-group mt-3">
+                <label>Pet Name</label>
+                <input type="hidden" th:field="*{pet}"/>
+                <input type="text" th:value="${apt.getPet().getPetName()}" readonly/>
+              </div>
+              <div class="form-group mt-3">
+                <label>Vet</label>
+                <select th:field="*{vet}">
+                  <option th:each="vet:${vets}" th:value="${vet.getId()}" th:text="${vet.getFirstName().concat(' ').concat(vet.getLastName())}"></option>
+                </select>
+              </div>
+              <div th:if="${vets.size() == 0}">
+                <span class="text-danger">There is no vets in the Database, please add a vet.</span>
+                <a th:href="@{/addVet}">click here to add a vet to the database.</a>
+              </div>
+              <div class="form-group mt-3">
+                <label>Visit Description</label>
+                <textarea class = "form-control"  th:field="${visit.description}"></textarea>
+              </div>
             </div>
-            <div class="form-group mt-3">
-              <label>Appointment Description</label>
-              <textarea class = "form-control"  th:value="${apt.getDescription()}" th:text="${apt.getDescription()}" readonly></textarea>
-            </div>
-            <div class="form-group mt-3">
-              <label>Pet Name</label>
-              <input type="hidden" th:field="*{pet}"/>
-              <input type="text" th:value="${apt.getPet().getPetName()}" readonly/>
-            </div>
-            <div class="form-group mt-3">
-              <label>Vet</label>
-              <select th:field="*{vet}">
-                <option th:each="vet:${vets}" th:value="${vet.getId()}" th:text="${vet.getFirstName().concat(' ').concat(vet.getLastName())}"></option>
-              </select>
-            </div>
-            <div th:if="${vets.size() == 0}">
-              <span class="text-danger">There is no vets in the Database, please add a vet.</span>
-              <a th:href="@{/addVet}">click here to add a vet to the database.</a>
-            </div>
-            <div class="form-group mt-3">
-              <label>Visit Description</label>
-              <textarea class = "form-control"  th:field="${visit.description}"></textarea>
-            </div>
-          </div>
 
-          <div class="form-group mt-4">
-            <ul>
-              <li th:each="err:${#fields.errors()}" th:text="${err}" class="text-danger"></li>
-            </ul>
-          </div>
-          <button type="submit" class="btn btn-primary" th:disabled="${vets.size() == 0}">Add Visit</button>
-        </form>
+            <div class="form-group mt-4">
+              <ul>
+                <li th:each="err:${#fields.errors()}" th:text="${err}" class="text-danger"></li>
+              </ul>
+            </div>
+            <button type="submit" class="btn btn-primary" th:disabled="${vets.size() == 0}">Add Visit</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div th:insert="footer :: foot"></div>
+  <div th:insert="footer :: foot"></div>
 </body>
 </html>
